@@ -23,7 +23,31 @@ public class WorkFlowTask extends Entity{
 	 * 结果(码值:TaskResult)
 	 */
 	private String result;
+	/**
+	 * 备注
+	 */
+	private String remark;
+	/**
+	 * 开始时间
+	 */
+	private String beginTime;
+	/**
+	 * 结束时间
+	 */
+	private String endTime;
 	
+	public String getBeginTime() {
+		return beginTime;
+	}
+	public void setBeginTime(String beginTime) {
+		this.beginTime = beginTime;
+	}
+	public String getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
 	public int getBackTask() {
 		return backTask;
 	}
@@ -47,5 +71,11 @@ public class WorkFlowTask extends Entity{
 	}
 	public void setResult(String result) {
 		this.result = result;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 }
