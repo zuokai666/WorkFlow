@@ -9,13 +9,13 @@ spring:
     virtual-host: workflow
     host: 127.0.0.1
     port: 5672
-    username: workflow
-    password: workflow
+    username: guest
+    password: guest
     listener:
       simple:
         concurrency: 5
         max-concurrency: 30
-        prefetch: 1
+        prefetch: 10
   datasource:
     username: root
     password: d2p9bupt

@@ -28,7 +28,7 @@ public class FlowAction {
 	public void consume(String message){
 		log.info("{}接收到消息,{}", Thread.currentThread().getName(), message);
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(4000);
 		} catch (InterruptedException e) {
 			log.error("", e);
 		}
