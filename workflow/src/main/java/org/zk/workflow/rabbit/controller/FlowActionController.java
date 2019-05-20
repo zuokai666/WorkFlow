@@ -72,14 +72,14 @@ public class FlowActionController {
 		JsonNode boReturn = netLoanService.handle(requestNode);
 		if("TONEXT".equals(boReturn.get("FlowResult").asText().split("@")[0])){//to next
 			SqlRowSet task = jdbcTemplate.queryForRowSet(
-					"select * from WorkFlowTask where relativeSerialNo = '"+requestNode.path("TaskNo").asText()+"'");
+					"select * from WorkFlowTask where relativeSerialNo = '"+requestNode.path("taskNo").asText()+"'");
 			task.next();
 			SqlRowSet model = jdbcTemplate.queryForRowSet(
 					"select * from WorkFlowModel where flowNo = '"+task.getString("flowNo")+"' and phaseNo = '"+task.getString("phaseNo")+"'");
 			model.next();
 			ObjectNode transReq = om.createObjectNode();
-			transReq.put("TaskNo", task.getString("serialNo"));
-			transReq.put("IsFromArtificial", "0");
+			transReq.put("taskNo", task.getString("serialNo"));
+			transReq.put("isFromArtificial", "0");
 			if("MQ".equals(model.getString("attribute9"))){
 				rabbitTemplate.convertAndSend(queue, transReq.toString());
 			}else {

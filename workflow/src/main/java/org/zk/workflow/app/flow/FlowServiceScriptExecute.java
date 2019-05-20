@@ -15,6 +15,19 @@ public class FlowServiceScriptExecute {
 	 */
 	public static String action(JdbcTemplate jdbcTemplate,String taskNo,
 			String isFromArtificial,String phaseOpinion,String phaseAction){
-				return null;
+		String flag = execute(jdbcTemplate,taskNo,isFromArtificial,phaseOpinion);
+		if("SUCCESS".equals(flag.split("@")[0])){
+			return commit(jdbcTemplate,taskNo,phaseOpinion,phaseAction);
+		}else {
+			return flag;
+		}
+	}
+	
+	private static String commit(JdbcTemplate jdbcTemplate, String taskNo, String phaseOpinion, String phaseAction) {
+		return null;
+	}
+	
+	private static String execute(JdbcTemplate jdbcTemplate,String taskNo,String isFromArtificial,String phaseOpinion) {
+		return null;
 	}
 }
