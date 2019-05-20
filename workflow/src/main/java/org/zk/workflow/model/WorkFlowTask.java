@@ -5,77 +5,26 @@ package org.zk.workflow.model;
  * 
  * @author King
  */
-public class WorkFlowTask extends Entity{
+@SuppressWarnings("unused")
+public class WorkFlowTask {
 	
-	/**
-	 * 上一个任务记录流水号
-	 */
-	private int backTask;
-	/**
-	 * 任务流水号
-	 */
-	private String taskSerialNo;
-	/**
-	 * 当前阶段号
-	 */
-	private int nowPhaseNo;
-	/**
-	 * 结果(码值:TaskResult)
-	 */
-	private String result;
-	/**
-	 * 备注
-	 */
-	private String remark;
-	/**
-	 * 开始时间
-	 */
-	private String beginTime;
-	/**
-	 * 结束时间
-	 */
-	private String endTime;
-	
-	public String getBeginTime() {
-		return beginTime;
-	}
-	public void setBeginTime(String beginTime) {
-		this.beginTime = beginTime;
-	}
-	public String getEndTime() {
-		return endTime;
-	}
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
-	}
-	public int getBackTask() {
-		return backTask;
-	}
-	public void setBackTask(int backTask) {
-		this.backTask = backTask;
-	}
-	public String getTaskSerialNo() {
-		return taskSerialNo;
-	}
-	public void setTaskSerialNo(String taskSerialNo) {
-		this.taskSerialNo = taskSerialNo;
-	}
-	public int getNowPhaseNo() {
-		return nowPhaseNo;
-	}
-	public void setNowPhaseNo(int nowPhaseNo) {
-		this.nowPhaseNo = nowPhaseNo;
-	}
-	public String getResult() {
-		return result;
-	}
-	public void setResult(String result) {
-		this.result = result;
-	}
-	public String getRemark() {
-		return remark;
-	}
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+	private String serialNo;//流水号
+	private String objectNo;//对象编号
+	private String objectType;//对象类型
+	private String relativeSerialNo;//上一流水号
+	private String flowNo;//流程编号
+	private String flowName;//流程名称
+	private String phaseNo;//阶段编号
+	private String phaseName;//阶段名称
+	private String phaseType;//阶段类型
+	private String applyType;//申请类型
+	private String beginTime;//开始时间
+	private String endTime;//结束时间
+	private String phaseChoice;//阶段意见
+	private String phasePinion;//意见详情
+	private String phasePinion1;//意见详情1
+	private String phasePinion2;//意见详情2
+	private String processTaskNo;//流程任务编号
+	private String flowState;//流程状态
+	private String update_time;//更新时间，数据库自动更新
 }

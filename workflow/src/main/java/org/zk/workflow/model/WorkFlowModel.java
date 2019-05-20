@@ -1,61 +1,33 @@
 package org.zk.workflow.model;
 
-/**
- * 记录流程节点
- * 
- * @author King
- */
-public class WorkFlowModel extends Entity{
+@SuppressWarnings("unused")
+public class WorkFlowModel {
 	
-	/**
-	 * 业务服务器必须传入类型
-	 */
-	private String type;
-	/**
-	 * 版本
-	 */
-	private int version;
-	/**
-	 * 阶段号
-	 */
-	private int phaseNo;
-	/**
-	 * 阶段名称
-	 */
-	private int phaseName;
-	/**
-	 * 类的全限定名
-	 */
-	private String className;
-	
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
-	public int getVersion() {
-		return version;
-	}
-	public void setVersion(int version) {
-		this.version = version;
-	}
-	public int getPhaseNo() {
-		return phaseNo;
-	}
-	public void setPhaseNo(int phaseNo) {
-		this.phaseNo = phaseNo;
-	}
-	public int getPhaseName() {
-		return phaseName;
-	}
-	public void setPhaseName(int phaseName) {
-		this.phaseName = phaseName;
-	}
-	public String getClassName() {
-		return className;
-	}
-	public void setClassName(String className) {
-		this.className = className;
-	}
+	private String flowNo;//流程编号
+	private String version;
+	private String phaseNo;
+	private String phaseType;
+	private String phaseName;
+	private String phaseDescribe;
+	private String phaseAttribute;
+	private String preScript;
+	private String initScript;
+	private String choiceDescribe;
+	private String choiceScript;
+	private String actionDescribe;
+	private String actionScript;
+	private String postScript;
+	private String attribute1;
+	private String attribute2;
+	private String attribute3;
+	private String attribute4;
+	private String attribute5;
+	private String attribute6;
+	private String attribute7;
+	private String attribute8;
+	private String attribute9;
+	private String attribute10;
+	private String standardTime1;//审批标准时间1（标准）
+	private String standardTime2;//审批标准时间2（最长）
+	private String update_time;
 }
