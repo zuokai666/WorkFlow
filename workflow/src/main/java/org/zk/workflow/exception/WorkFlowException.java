@@ -9,4 +9,8 @@ package org.zk.workflow.exception;
 public class WorkFlowException extends RuntimeException{
 	
 	private static final long serialVersionUID = 2142458532840653917L;
+	
+	public WorkFlowException(String message) {
+        super(message);
+    }
 }

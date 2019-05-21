@@ -18,10 +18,10 @@ public class FlowActionServiceImpl implements NetLoanService {
 	
 	@Override
 	public JsonNode handle(JsonNode requestNode) {
-		String taskNo = requestNode.get("taskNo").asText();
-		String isFromArtificial = requestNode.get("isFromArtificial").asText();
-		String phaseOpinion = requestNode.get("phaseOpinion").asText();
-		String phaseAction = requestNode.get("phaseAction").asText();
+		String taskNo = requestNode.path("taskNo").asText();
+		String isFromArtificial = requestNode.path("isFromArtificial").asText();
+		String phaseOpinion = requestNode.path("phaseOpinion").asText();
+		String phaseAction = requestNode.path("phaseAction").asText();
 		String toNext = FlowServiceScriptExecute.action(jdbcTemplate, taskNo, isFromArtificial, phaseOpinion, phaseAction);
 		ObjectNode returnNode = new ObjectMapper().createObjectNode();
 		returnNode.put("FlowResult", toNext);

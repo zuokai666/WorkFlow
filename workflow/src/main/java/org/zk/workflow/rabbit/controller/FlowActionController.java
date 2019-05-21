@@ -70,20 +70,22 @@ public class FlowActionController {
 	
 	public void handleNode(JsonNode requestNode) {
 		JsonNode boReturn = netLoanService.handle(requestNode);
+		log.info(boReturn.toString());
 		if("TONEXT".equals(boReturn.get("FlowResult").asText().split("@")[0])){//to next
 			SqlRowSet task = jdbcTemplate.queryForRowSet(
 					"select * from WorkFlowTask where relativeSerialNo = '"+requestNode.path("taskNo").asText()+"'");
-			task.next();
-			SqlRowSet model = jdbcTemplate.queryForRowSet(
-					"select * from WorkFlowModel where flowNo = '"+task.getString("flowNo")+"' and phaseNo = '"+task.getString("phaseNo")+"'");
-			model.next();
-			ObjectNode transReq = om.createObjectNode();
-			transReq.put("taskNo", task.getString("serialNo"));
-			transReq.put("isFromArtificial", "0");
-			if("MQ".equals(model.getString("attribute9"))){
-				rabbitTemplate.convertAndSend(queue, transReq.toString());
-			}else {
-				handleNode(transReq);
+			if(task.next()){
+				SqlRowSet model = jdbcTemplate.queryForRowSet(
+						"select * from WorkFlowModel where flowNo = '"+task.getString("flowNo")+"' and phaseNo = '"+task.getString("phaseNo")+"'");
+				model.next();
+				ObjectNode transReq = om.createObjectNode();
+				transReq.put("taskNo", task.getString("serialNo"));
+				transReq.put("isFromArtificial", "0");
+				if("MQ".equals(model.getString("attribute9"))){
+					rabbitTemplate.convertAndSend(queue, transReq.toString());
+				}else {
+					handleNode(transReq);
+				}
 			}
 		}
 	}

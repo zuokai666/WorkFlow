@@ -37,19 +37,21 @@ public class SendController {
 		String applyNo = "ylyd123456";
 		String objectType = "jbo.app.BUSINESS_APPLY";
 		ObjectNode taskObject = new ObjectMapper().createObjectNode();
-		
 		SqlRowSet task = jdbcTemplate.queryForRowSet(
 				"select * from WorkFlowTask where objectNo = '"+applyNo+"' and objectType = '"+objectType+"'");
-		task.next();
-		SqlRowSetMetaData metaData = task.getMetaData();
-		for(int i=1;i<=metaData.getColumnCount();i++){
-			String columnName = metaData.getColumnName(i);
-			String columnValue = task.getString(columnName);
-			taskObject.put(columnName, columnValue);
+		if(task.next()){
+			SqlRowSetMetaData metaData = task.getMetaData();
+			for(int i=1;i<=metaData.getColumnCount();i++){
+				String columnName = metaData.getColumnName(i);
+				String columnValue = task.getString(columnName);
+				taskObject.put(columnName, columnValue);
+			}
+			taskObject.put("taskNo", task.getString("serialNo"));
+			taskObject.put("isFromArtificial", "0");
+			rabbitTemplate.convertAndSend(queue, taskObject.toString());
+			return taskObject.toString();
+		}else {
+			return "";
 		}
-		taskObject.put("taskNo", task.getString("serialNo"));
-		taskObject.put("isFromArtificial", "0");
-		rabbitTemplate.convertAndSend(queue, taskObject.toString());
-		return taskObject.toString();
 	}
 }
