@@ -23,6 +23,10 @@ public class FlowDao {
 		String sql = "select * from WorkFlowTask where relativeSerialNo = '"+relativeSerialNo+"'";
 		return DbUtil.getEntities(jdbcTemplate, sql);
 	}
+	public List<JsonNode> getWorkFlowTask(String serialNo){
+		String sql = "select * from WorkFlowTask where serialNo = '"+serialNo+"'";
+		return DbUtil.getEntities(jdbcTemplate, sql);
+	}
 	public List<JsonNode> getWorkFlowModelBy(String flowNo,String phaseNo){
 		String sql = "select * from WorkFlowModel where flowNo = '"+flowNo+"' and phaseNo = '"+phaseNo+"'";
 		return DbUtil.getEntities(jdbcTemplate, sql);
