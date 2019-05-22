@@ -20,4 +20,6 @@ public interface FlowService {
 	JsonNode getNextWorkFlowModelBy(String currentphaseNo);
 	
 	void insertWorkFlowTask(JsonNode node);
+	
+	int update(String sql);
 }

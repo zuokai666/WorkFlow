@@ -5,13 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.zk.workflow.node.Node;
 import org.zk.workflow.util.NodeStatus;
 
-public class ApplyNode implements Node {
+public class ContractNode implements Node {
 	
-	private static final Logger log = LoggerFactory.getLogger(ApplyNode.class);
+	private static final Logger log = LoggerFactory.getLogger(ContractNode.class);
 	
 	@Override
 	public NodeStatus run() {
-		log.info("申请节点调用");
+		log.info("合同生成节点调用");
 		return NodeStatus.SUCCESS;
-	}	
+	}
 }

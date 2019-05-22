@@ -43,21 +43,21 @@ public class NodeServiceImpl implements NodeService {
 			try {
 				Node currentNodeClass = (Node) BeanUtils.instantiateClass(Class.forName(modelNode.path("attribute10").asText()));
 				NodeStatus executeNodeStatus = currentNodeClass.run();
-				flowService.updateWorkFlowTask(TimeUtil.now(), executeNodeStatus.describe, 
-						executeNodeStatus.id, currentNode.path("taskNo").asText());
+				flowService.updateWorkFlowTask(TimeUtil.now(), executeNodeStatus.id, 
+						executeNodeStatus.describe, currentNode.path("taskNo").asText());
 			} catch (ClassNotFoundException e) {
 				log.error("执行节点的类的全限定名错误", e);
 				throw new WorkFlowException("执行节点的类的全限定名错误");
 			} catch (Exception e) {
 				log.error("执行节点的类内部出错", e);
-				flowService.updateWorkFlowTask(TimeUtil.now(), e.getMessage(), 
-						NodeStatus.EXCEPTION.id, currentNode.path("taskNo").asText());
+				flowService.updateWorkFlowTask(TimeUtil.now(), NodeStatus.EXCEPTION.id, e.getMessage(), 
+						currentNode.path("taskNo").asText());
 			}
 		}else {//没有可执行节点，直接赋值结果成功
-			flowService.updateWorkFlowTask(TimeUtil.now(), NodeStatus.NULLNODE.describe, 
-					NodeStatus.NULLNODE.id, currentNode.path("taskNo").asText());
+			flowService.updateWorkFlowTask(TimeUtil.now(), NodeStatus.NULLNODE.id, NodeStatus.NULLNODE.describe, 
+					currentNode.path("taskNo").asText());
 		}
-		return NodeStatus.TO_NEXT;
+		return NodeStatus.SUCCESS;
 	}
 	
 	@Override
@@ -66,6 +66,7 @@ public class NodeServiceImpl implements NodeService {
 		JsonNode nextModelNode = flowService.getNextWorkFlowModelBy(taskNode.path("phaseNo").asText());
 		if(nextModelNode == null){
 			//do nothing.
+			return NodeStatus.TO_END;
 		}else {
 			if(nextModelNode.path("phaseNo").asText().equals(NodeStatus.SUCCESS_END.id) 
 					|| nextModelNode.path("phaseNo").asText().equals(NodeStatus.FAIL_END.id)){
@@ -84,6 +85,7 @@ public class NodeServiceImpl implements NodeService {
 				dataNode.put("phasePinion2", NodeStatus.AutoFinish.id);//SUCCESS
 				dataNode.put("applyType", taskNode.path("applyType").asText());
 				flowService.insertWorkFlowTask(dataNode);
+				return NodeStatus.TO_END;
 			}else {
 				ObjectNode dataNode = Contant.om.createObjectNode();
 				dataNode.put("objectNo", taskNode.path("objectNo").asText());
@@ -100,8 +102,8 @@ public class NodeServiceImpl implements NodeService {
 //				dataNode.put("phasePinion2", );//SUCCESS
 				dataNode.put("applyType", taskNode.path("applyType").asText());
 				flowService.insertWorkFlowTask(dataNode);
+				return NodeStatus.TO_NEXT;
 			}
 		}
-		return null;
 	}
 }

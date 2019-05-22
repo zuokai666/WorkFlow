@@ -8,12 +8,12 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.zk.workflow.service.FlowService;
-import org.zk.workflow.service.NetLoanService;
+import org.zk.workflow.service.NodeService;
 import org.zk.workflow.util.Contant;
+import org.zk.workflow.util.NodeStatus;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -32,16 +32,12 @@ public class FlowActionController {
 	
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
-	
 	@Value("${rabbit.queue.flow}")
 	private String queue;
-	
-	@Autowired
-	@Qualifier("FlowActionServiceImpl")
-	private NetLoanService netLoanService;
-	
 	@Autowired
 	private FlowService flowService;
+	@Autowired
+	private NodeService nodeService;
 	
 	/**
 	 * 第一个任务回事整个Task对象，另外设置了两个参数，taskNo=task.主键,isFromArtificial=0 非人工
@@ -65,9 +61,12 @@ public class FlowActionController {
 	}
 	
 	public void handleNode(JsonNode requestNode) {
-		JsonNode boReturn = netLoanService.handle(requestNode);
-		log.info(boReturn.toString());
-		if("TONEXT".equals(boReturn.get("FlowResult").asText().split("@")[0])){//to next
+		NodeStatus resultNodeStatus1 = nodeService.handleCurrentNode(requestNode);
+		NodeStatus resultNodeStatus2 = null;
+		if(resultNodeStatus1 == NodeStatus.SUCCESS){
+			resultNodeStatus2 = nodeService.initNextNode(requestNode);
+		}
+		if(resultNodeStatus2 == NodeStatus.TO_NEXT){//to next
 			JsonNode taskNode = flowService.getWorkFlowTaskBy(requestNode.path("taskNo").asText());
 			JsonNode modelNode = flowService.getWorkFlowModelBy(taskNode.path("flowNo").asText(), taskNode.path("phaseNo").asText());
 			if("MQ".equals(modelNode.path("attribute9").asText())){

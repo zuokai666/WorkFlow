@@ -5,13 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.zk.workflow.node.Node;
 import org.zk.workflow.util.NodeStatus;
 
-public class ApplyNode implements Node {
+public class CfcaNode implements Node {
 	
-	private static final Logger log = LoggerFactory.getLogger(ApplyNode.class);
+	private static final Logger log = LoggerFactory.getLogger(CfcaNode.class);
 	
 	@Override
 	public NodeStatus run() {
-		log.info("申请节点调用");
+		log.info("CFCA签章调用");
 		return NodeStatus.SUCCESS;
-	}	
+	}
 }

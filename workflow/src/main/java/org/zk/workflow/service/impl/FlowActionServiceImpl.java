@@ -114,7 +114,7 @@ public class FlowActionServiceImpl implements NetLoanService {
 				try {
 					Class<?> _class = Class.forName(serviceScriptMethod);
 					Object newObject = _class.newInstance();
-					String anyValue = ((Node) newObject).run();
+					String anyValue = ((Node) newObject).run().toString();
 					String[] sReturn = anyValue.split("@");
 					if("SUCCESS".equals(sReturn[0]) || "FAILCONTINUE".equals(sReturn[0])){
 						jdbcTemplate.update(

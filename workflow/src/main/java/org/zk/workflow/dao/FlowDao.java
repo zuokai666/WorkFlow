@@ -61,6 +61,9 @@ public class FlowDao {
 		}
 		String _ziduan = ziduan.substring(0, ziduan.length() - 1);//去掉最后一个逗号
 		String _zhi = zhi.substring(0, zhi.length() - 1);//去掉最后一个逗号
-		jdbcTemplate.execute("INSERT INTO WorkFlowTask("+_ziduan+")VALUES("+_zhi+")");
+		jdbcTemplate.update("INSERT INTO WorkFlowTask("+_ziduan+")VALUES("+_zhi+")");
+	}
+	public int update(String sql){
+		return jdbcTemplate.update(sql);
 	}
 }

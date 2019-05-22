@@ -60,4 +60,9 @@ public class FlowServiceImpl implements FlowService {
 	public void insertWorkFlowTask(JsonNode node) {
 		flowDao.insertWorkFlowTask(node);
 	}
+
+	@Override
+	public int update(String sql) {
+		return flowDao.update(sql);
+	}
 }
