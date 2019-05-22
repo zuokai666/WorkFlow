@@ -32,14 +32,17 @@ public class SendController {
 	@RequestMapping(path="/send",method=RequestMethod.GET,produces = "application/json")
 	@ResponseBody
 	public String send(){
-		int row = dataService.update("delete from WorkFlowTask");
-		log.info("删除表，影响行数{}", row);
+		log.info("删除WorkFlowTask表，影响行数{}", dataService.update("delete from WorkFlowTask"));
+		log.info("删除WorkFlowObject表，影响行数{}", dataService.update("delete from WorkFlowObject"));
+		
+		String objectNo = "ylyd123456";
+		String objectType = "jbo.app.BUSINESS_APPLY";
 		
 		String serialNo = TimeUtil.key();
 		ObjectNode dataNode = Contant.om.createObjectNode();
 		dataNode.put("serialNo", serialNo);
-		dataNode.put("objectNo", "ylyd123456");
-		dataNode.put("objectType", "jbo.app.BUSINESS_APPLY");
+		dataNode.put("objectNo", objectNo);
+		dataNode.put("objectType", objectType);
 		dataNode.put("flowNo", "CreditFlow");
 		dataNode.put("flowName", "授信业务流程");
 		dataNode.put("phaseNo", "0010");
@@ -48,6 +51,17 @@ public class SendController {
 		dataNode.put("beginTime", TimeUtil.now());
 		dataNode.put("applyType", "CreditLineApply");
 		dataService.insertWorkFlowTask(dataNode);
+		
+		ObjectNode objectNode = Contant.om.createObjectNode();
+		objectNode.put("objectNo", objectNo);
+		objectNode.put("objectType", objectType);
+		objectNode.put("applyType", "CreditLineApply");
+		objectNode.put("flowNo", "CreditFlow");
+		objectNode.put("flowName", "授信业务流程");
+		objectNode.put("phaseNo", "0010");
+		objectNode.put("phaseName", "进件申请");
+		objectNode.put("phaseType", "1010");
+		dataService.executeWorkFlowObject(objectNode);
 		
 		ObjectNode taskObject = Contant.om.createObjectNode();
 		taskObject.put("taskNo", serialNo);

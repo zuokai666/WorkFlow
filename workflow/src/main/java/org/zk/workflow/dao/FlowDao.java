@@ -66,4 +66,54 @@ public class FlowDao {
 	public int update(String sql){
 		return jdbcTemplate.update(sql);
 	}
+	public JsonNode getWorkFlowObjectBy(String objectNo,String objectType){
+		String sql = "select * from WorkFlowObject where objectNo = '"+objectNo+"' and objectType = '"+objectType+"'";
+		List<JsonNode> rNodes = DbUtil.getEntities(jdbcTemplate, sql);
+		if(rNodes.size() == 0){
+			return null;
+		}else {
+			return rNodes.get(0);
+		}
+	}
+	public void executeWorkFlowObject(JsonNode node){
+		JsonNode objectNode = getWorkFlowObjectBy(node.path("objectNo").asText(), node.path("objectType").asText());
+		if(objectNode == null){
+			insertWorkFlowObject(node);
+		}else {
+			updateWorkFlowObject(node);
+		}
+	}
+	private void updateWorkFlowObject(JsonNode node){
+		JsonNode vNode = node;
+		StringBuilder zhi = new StringBuilder();
+		Iterator<String> iterator = vNode.fieldNames();
+		while(iterator.hasNext()){
+			String field = iterator.next();
+			String value = vNode.path(field).asText();
+			zhi.append(field);
+			zhi.append("='");
+			zhi.append(value);
+			zhi.append("',");
+		}
+		String _zhi = zhi.substring(0, zhi.length() - 1);//去掉最后一个逗号
+		jdbcTemplate.update("update WorkFlowObject set "+_zhi+" where objectNo='"+node.path("objectNo").asText()+"' and objectType='"+node.path("objectType").asText()+"'");
+	}
+	private void insertWorkFlowObject(JsonNode node){
+		JsonNode vNode = node;
+		StringBuilder ziduan = new StringBuilder();
+		StringBuilder zhi = new StringBuilder();
+		Iterator<String> iterator = vNode.fieldNames();
+		while(iterator.hasNext()){
+			String field = iterator.next();
+			String value = vNode.path(field).asText();
+			ziduan.append(field);
+			ziduan.append(",");
+			zhi.append("'");
+			zhi.append(value);
+			zhi.append("',");
+		}
+		String _ziduan = ziduan.substring(0, ziduan.length() - 1);//去掉最后一个逗号
+		String _zhi = zhi.substring(0, zhi.length() - 1);//去掉最后一个逗号
+		jdbcTemplate.update("INSERT INTO WorkFlowObject("+_ziduan+")VALUES("+_zhi+")");
+	}
 }

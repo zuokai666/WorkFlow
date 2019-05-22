@@ -12,7 +12,10 @@ public interface DataService {
 	JsonNode getWorkFlowTaskBy(String relativeSerialNo);
 	
 	JsonNode getWorkFlowModelBy(String flowNo, String phaseNo);
-
+	
+	JsonNode getWorkFlowObjectBy(String objectNo,String objectType);
+	void executeWorkFlowObject(JsonNode node);
+	
 	JsonNode getWorkFlowTask(String serialNo);
 	
 	void updateWorkFlowTask(String endTime,String phasePinion2,String phasePinion,String serialNo);

@@ -8,8 +8,9 @@ package org.zk.workflow.util;
  */
 public enum NodeStatus {
 	
-	FAIL_CONTINUE("FAIL_CONTINUE", "执行失败，继续执行"),
-	ERROR("ERROR", "处理错误"),//有待恢复解决
+//	FAIL_CONTINUE("FAIL_CONTINUE", "执行失败，继续执行"),
+	ERROR_HOLD("ERROR_HOLD", "执行失败，节点挂起"),
+	ERROR_CONTINUE("ERROR_CONTINUE", "执行失败，继续执行"),
 	EXCEPTION("EXCEPTION", "节点处理异常"),//节点抛出异常
 	
 	SUCCESS("SUCCESS", "处理成功"),//第一次执行，允许创建下一个节点

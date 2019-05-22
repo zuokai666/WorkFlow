@@ -61,12 +61,11 @@ public class FlowActionController {
 	}
 	
 	public void handleNode(JsonNode requestNode) {
-		NodeStatus resultNodeStatus1 = nodeService.handleCurrentNode(requestNode);
-		NodeStatus resultNodeStatus2 = null;
-		if(resultNodeStatus1 == NodeStatus.SUCCESS){
-			resultNodeStatus2 = nodeService.initNextNode(requestNode);
+		NodeStatus resultNodeStatus = nodeService.handleCurrentNode(requestNode);
+		if(resultNodeStatus == NodeStatus.SUCCESS){
+			resultNodeStatus = nodeService.initNextNode(requestNode);
 		}
-		if(resultNodeStatus2 == NodeStatus.TO_NEXT){//to next
+		if(resultNodeStatus == NodeStatus.TO_NEXT){//to next
 			JsonNode taskNode = dataService.getWorkFlowTaskBy(requestNode.path("taskNo").asText());
 			JsonNode modelNode = dataService.getWorkFlowModelBy(taskNode.path("flowNo").asText(), taskNode.path("phaseNo").asText());
 			if("MQ".equals(modelNode.path("attribute9").asText())){

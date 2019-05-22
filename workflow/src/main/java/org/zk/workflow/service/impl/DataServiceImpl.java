@@ -65,4 +65,14 @@ public class DataServiceImpl implements DataService {
 	public int update(String sql) {
 		return flowDao.update(sql);
 	}
+	
+	@Override
+	public JsonNode getWorkFlowObjectBy(String objectNo, String objectType) {
+		return flowDao.getWorkFlowObjectBy(objectNo, objectType);
+	}
+
+	@Override
+	public void executeWorkFlowObject(JsonNode node) {
+		flowDao.executeWorkFlowObject(node);
+	}
 }

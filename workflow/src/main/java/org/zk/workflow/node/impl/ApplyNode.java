@@ -12,6 +12,9 @@ public class ApplyNode implements Node {
 	@Override
 	public NodeStatus run() {
 		log.info("申请节点调用");
+		if("1".equals("1")){
+//			return NodeStatus.ERROR;
+		}
 		return NodeStatus.SUCCESS;
-	}	
+	}
 }
