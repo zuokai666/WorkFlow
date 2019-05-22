@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.zk.workflow.service.FlowService;
+import org.zk.workflow.service.DataService;
 import org.zk.workflow.util.Contant;
 import org.zk.workflow.util.TimeUtil;
 
@@ -24,7 +24,7 @@ public class SendController {
 	private RabbitTemplate rabbitTemplate;
 	
 	@Autowired
-	private FlowService flowService;
+	private DataService dataService;
 	
 	@Value("${rabbit.queue.flow}")
 	private String queue;
@@ -32,7 +32,7 @@ public class SendController {
 	@RequestMapping(path="/send",method=RequestMethod.GET,produces = "application/json")
 	@ResponseBody
 	public String send(){
-		int row = flowService.update("delete from WorkFlowTask");
+		int row = dataService.update("delete from WorkFlowTask");
 		log.info("删除表，影响行数{}", row);
 		
 		String serialNo = TimeUtil.key();
@@ -47,7 +47,7 @@ public class SendController {
 		dataNode.put("phaseType", "1010");
 		dataNode.put("beginTime", TimeUtil.now());
 		dataNode.put("applyType", "CreditLineApply");
-		flowService.insertWorkFlowTask(dataNode);
+		dataService.insertWorkFlowTask(dataNode);
 		
 		ObjectNode taskObject = Contant.om.createObjectNode();
 		taskObject.put("taskNo", serialNo);

@@ -10,7 +10,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.zk.workflow.service.FlowService;
+import org.zk.workflow.service.DataService;
 import org.zk.workflow.service.NodeService;
 import org.zk.workflow.util.Contant;
 import org.zk.workflow.util.NodeStatus;
@@ -35,7 +35,7 @@ public class FlowActionController {
 	@Value("${rabbit.queue.flow}")
 	private String queue;
 	@Autowired
-	private FlowService flowService;
+	private DataService dataService;
 	@Autowired
 	private NodeService nodeService;
 	
@@ -67,8 +67,8 @@ public class FlowActionController {
 			resultNodeStatus2 = nodeService.initNextNode(requestNode);
 		}
 		if(resultNodeStatus2 == NodeStatus.TO_NEXT){//to next
-			JsonNode taskNode = flowService.getWorkFlowTaskBy(requestNode.path("taskNo").asText());
-			JsonNode modelNode = flowService.getWorkFlowModelBy(taskNode.path("flowNo").asText(), taskNode.path("phaseNo").asText());
+			JsonNode taskNode = dataService.getWorkFlowTaskBy(requestNode.path("taskNo").asText());
+			JsonNode modelNode = dataService.getWorkFlowModelBy(taskNode.path("flowNo").asText(), taskNode.path("phaseNo").asText());
 			if("MQ".equals(modelNode.path("attribute9").asText())){
 				rabbitTemplate.convertAndSend(queue, createRequestNode(taskNode.path("serialNo").asText(), "0").toString());
 			}else {

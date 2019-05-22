@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zk.workflow.dao.FlowDao;
-import org.zk.workflow.service.FlowService;
+import org.zk.workflow.service.DataService;
 import org.zk.workflow.util.Assert;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
 @Service
-public class FlowServiceImpl implements FlowService {
+public class DataServiceImpl implements DataService {
 	
 	@Autowired
 	private FlowDao flowDao;

@@ -2,7 +2,7 @@ package org.zk.workflow.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public interface FlowService {
+public interface DataService {
 	
 	/**
 	 * 

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zk.workflow.exception.WorkFlowException;
 import org.zk.workflow.node.Node;
-import org.zk.workflow.service.FlowService;
+import org.zk.workflow.service.DataService;
 import org.zk.workflow.service.NodeService;
 import org.zk.workflow.util.Contant;
 import org.zk.workflow.util.NodeStatus;
@@ -22,7 +22,7 @@ public class NodeServiceImpl implements NodeService {
 	private static final Logger log = LoggerFactory.getLogger(NodeServiceImpl.class);
 	
 	@Autowired
-	private FlowService flowService;
+	private DataService flowService;
 	
 	@Override
 	public NodeStatus handleCurrentNode(JsonNode currentNode) {
