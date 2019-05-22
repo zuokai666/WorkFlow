@@ -25,6 +25,7 @@ public class DataServiceImpl implements DataService {
 	}
 	
 	@Override
+	@Deprecated
 	public JsonNode getWorkFlowModelBy(String flowNo,String phaseNo){
 		Assert.hasText(flowNo, "flowNo不能为空");
 		Assert.hasText(phaseNo, "phaseNo不能为空");
@@ -74,5 +75,10 @@ public class DataServiceImpl implements DataService {
 	@Override
 	public void executeWorkFlowObject(JsonNode node) {
 		flowDao.executeWorkFlowObject(node);
+	}
+
+	@Override
+	public List<JsonNode> allWorkFlowModels() {
+		return flowDao.getWorkFlowModels();
 	}
 }

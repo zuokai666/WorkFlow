@@ -1,5 +1,7 @@
 package org.zk.workflow.service;
 
+import java.util.List;
+
 import com.fasterxml.jackson.databind.JsonNode;
 
 public interface DataService {
@@ -11,7 +13,15 @@ public interface DataService {
 	 */
 	JsonNode getWorkFlowTaskBy(String relativeSerialNo);
 	
+	/**
+	 * 废弃，更换为Cache中获取
+	 * @param flowNo
+	 * @param phaseNo
+	 * @return
+	 */
+	@Deprecated
 	JsonNode getWorkFlowModelBy(String flowNo, String phaseNo);
+	List<JsonNode> allWorkFlowModels();
 	
 	JsonNode getWorkFlowObjectBy(String objectNo,String objectType);
 	void executeWorkFlowObject(JsonNode node);

@@ -30,8 +30,13 @@ public class FlowDao {
 		String sql = "select * from WorkFlowTask where serialNo = '"+serialNo+"'";
 		return DbUtil.getEntities(jdbcTemplate, sql);
 	}
+	@Deprecated
 	public List<JsonNode> getWorkFlowModelBy(String flowNo,String phaseNo){
 		String sql = "select * from WorkFlowModel where flowNo = '"+flowNo+"' and phaseNo = '"+phaseNo+"'";
+		return DbUtil.getEntities(jdbcTemplate, sql);
+	}
+	public List<JsonNode> getWorkFlowModels(){
+		String sql = "select * from WorkFlowModel";
 		return DbUtil.getEntities(jdbcTemplate, sql);
 	}
 	public void updateWorkFlowTask(String endTime,String phasePinion2,String phasePinion,String serialNo){

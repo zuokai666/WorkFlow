@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.zk.workflow.cache.Cache;
 import org.zk.workflow.exception.NotSupportedNodeStatusException;
 import org.zk.workflow.exception.WorkFlowException;
 import org.zk.workflow.node.Node;
@@ -36,7 +37,7 @@ public class NodeServiceImpl implements NodeService {
 				return NodeStatus.TO_NEXT;
 			}
 		}
-		JsonNode modelNode = dataService.getWorkFlowModelBy(taskNode.path("flowNo").asText(), taskNode.path("phaseNo").asText());
+		JsonNode modelNode = Cache.getWorkFlowModelBy(taskNode.path("flowNo").asText(), taskNode.path("phaseNo").asText());
 		NodeStatus result = NodeStatus.SUCCESS;
 		if(!modelNode.path("attribute10").asText().isEmpty()){//表示执行节点
 			try {

@@ -13,7 +13,8 @@ public class FicoNode implements Node {
 	public NodeStatus run() {
 		log.info("FICO节点调用");
 		if("1".equals("1")){
-			return NodeStatus.ERROR_CONTINUE;
+//			return NodeStatus.ERROR_HOLD;
+//			return NodeStatus.ERROR_CONTINUE;
 		}
 		return NodeStatus.SUCCESS;
 	}

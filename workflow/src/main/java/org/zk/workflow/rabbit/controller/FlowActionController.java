@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.zk.workflow.cache.Cache;
 import org.zk.workflow.service.DataService;
 import org.zk.workflow.service.NodeService;
 import org.zk.workflow.util.Contant;
@@ -67,7 +68,7 @@ public class FlowActionController {
 		}
 		if(resultNodeStatus == NodeStatus.TO_NEXT){//to next
 			JsonNode taskNode = dataService.getWorkFlowTaskBy(requestNode.path("taskNo").asText());
-			JsonNode modelNode = dataService.getWorkFlowModelBy(taskNode.path("flowNo").asText(), taskNode.path("phaseNo").asText());
+			JsonNode modelNode = Cache.getWorkFlowModelBy(taskNode.path("flowNo").asText(), taskNode.path("phaseNo").asText());
 			if("MQ".equals(modelNode.path("attribute9").asText())){
 				rabbitTemplate.convertAndSend(queue, createRequestNode(taskNode.path("serialNo").asText(), "0").toString());
 			}else {
