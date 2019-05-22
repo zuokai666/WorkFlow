@@ -1,20 +1,25 @@
 package org.zk.workflow.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
 import org.zk.workflow.exception.WorkFlowException;
 import org.zk.workflow.node.Node;
 import org.zk.workflow.service.FlowService;
 import org.zk.workflow.service.NodeService;
+import org.zk.workflow.util.Contant;
 import org.zk.workflow.util.NodeStatus;
 import org.zk.workflow.util.TimeUtil;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Service
 public class NodeServiceImpl implements NodeService {
+	
+	private static final Logger log = LoggerFactory.getLogger(NodeServiceImpl.class);
 	
 	@Autowired
 	private FlowService flowService;
@@ -22,73 +27,81 @@ public class NodeServiceImpl implements NodeService {
 	@Override
 	public NodeStatus handleCurrentNode(JsonNode currentNode) {
 		JsonNode taskNode = flowService.getWorkFlowTask(currentNode.path("taskNo").asText());
-		
-		
-		
-		
-		
-		
-		return null;
+		if(log.isDebugEnabled()){
+			log.debug("当前节点的状态是{}", taskNode.path("phasePinion2").asText());
+		}
+		if(NodeStatus.SUCCESS.id.equals(taskNode.path("phasePinion2").asText())){//如果当前节点已经成功，直接返回，不重复执行
+			if(taskNode.path("phaseNo").asText().equals(NodeStatus.SUCCESS_END.id) 
+					|| taskNode.path("phaseNo").asText().equals(NodeStatus.FAIL_END.id)){
+				return NodeStatus.TO_END;
+			}else {
+				return NodeStatus.TO_NEXT;
+			}
+		}
+		JsonNode modelNode = flowService.getWorkFlowModelBy(taskNode.path("flowNo").asText(), taskNode.path("phaseNo").asText());
+		if(!modelNode.path("attribute10").asText().isEmpty()){//表示执行节点
+			try {
+				Node currentNodeClass = (Node) BeanUtils.instantiateClass(Class.forName(modelNode.path("attribute10").asText()));
+				NodeStatus executeNodeStatus = currentNodeClass.run();
+				flowService.updateWorkFlowTask(TimeUtil.now(), executeNodeStatus.describe, 
+						executeNodeStatus.id, currentNode.path("taskNo").asText());
+			} catch (ClassNotFoundException e) {
+				log.error("执行节点的类的全限定名错误", e);
+				throw new WorkFlowException("执行节点的类的全限定名错误");
+			} catch (Exception e) {
+				log.error("执行节点的类内部出错", e);
+				flowService.updateWorkFlowTask(TimeUtil.now(), e.getMessage(), 
+						NodeStatus.EXCEPTION.id, currentNode.path("taskNo").asText());
+			}
+		}else {//没有可执行节点，直接赋值结果成功
+			flowService.updateWorkFlowTask(TimeUtil.now(), NodeStatus.NULLNODE.describe, 
+					NodeStatus.NULLNODE.id, currentNode.path("taskNo").asText());
+		}
+		return NodeStatus.TO_NEXT;
 	}
 	
 	@Override
 	public NodeStatus initNextNode(JsonNode currentNode) {
-		return null;
-	}
-	
-	
-	
-	private static String execute(JdbcTemplate jdbcTemplate,String taskNo,String isFromArtificial,String phaseOpinion) {
-		String flag = "SUCCESS@处理成功";
-		SqlRowSet ft = jdbcTemplate.queryForRowSet("select * from WorkFlowTask where serialNo = '"+taskNo+"'");
-		if(!ft.next() || ft.getString("endTime")!=null || "SUCCESS".equals(ft.getString("phasePinion2"))){
-			if(ft.getString("phaseNo").equals("1000") || ft.getString("phaseNo").equals("8000")){
-				return "TONEXT@该任务已经结束";
-			}
-			return "TONEXT@该任务已提交至其他阶段";
-		}
-		String originalFlowState = ft.getString("phasePinion2");
-		SqlRowSet fm = jdbcTemplate.queryForRowSet(
-				"select * from WorkFlowModel where flowNo = '"+ft.getString("flowNo")+"' and phaseNo = '"+ft.getString("phaseNo")+"'");
-		fm.next();
-		String serviceScript = fm.getString("attribute10");
-		String serviceScriptMethod = serviceScript;
-		if(serviceScriptMethod!=null && !serviceScriptMethod.isEmpty()){
-			//检测配置
-		}
-		if("HOLD".equals(originalFlowState) && !"1".equals(isFromArtificial)){
-			jdbcTemplate.update(
-					"update WorkFlowTask set phasePinion2='SUCCESS',phasePinion='处理成功' where serialNo='"+taskNo+"'");
-		}else if(!"SUCCESS".equals(originalFlowState) && !"FAILCONTINUE".equals(originalFlowState)){
-			if(serviceScriptMethod!=null && !serviceScriptMethod.isEmpty()){
-				try {
-					Class<?> _class = Class.forName(serviceScriptMethod);
-					Object newObject = _class.newInstance();
-					String anyValue = ((Node) newObject).run();
-					String[] sReturn = anyValue.split("@");
-					if("SUCCESS".equals(sReturn[0]) || "FAILCONTINUE".equals(sReturn[0])){
-						jdbcTemplate.update(
-						"update WorkFlowTask set endTime='"+TimeUtil.now()+"',phasePinion2='"+sReturn[0]+"',phasePinion='"+sReturn[1]+"' where serialNo='"+taskNo+"'");
-					}else if("HOLDERROR".equals(sReturn[0])){
-						throw new WorkFlowException(sReturn[1]);
-					}else if("HOLD".equals(sReturn[0])){
-						jdbcTemplate.update(
-						"update WorkFlowTask set phasePinion2='"+sReturn[0]+"',phasePinion='"+sReturn[1]+"' where serialNo='"+taskNo+"'");
-						return "FAIL@" + sReturn[1];
-					}else {
-						throw new WorkFlowException(serviceScriptMethod + "返回结果有误");
-					}
-				} catch (Exception e) {
-					log.error("", e);
-					jdbcTemplate.update(
-					"update WorkFlowTask set phasePinion2='HOLDERROR',phasePinion='"+e.getMessage()+"' where serialNo='"+taskNo+"'");
-					return "FAIL@" + e.getMessage();
-				}
+		JsonNode taskNode = flowService.getWorkFlowTask(currentNode.path("taskNo").asText());
+		JsonNode nextModelNode = flowService.getNextWorkFlowModelBy(taskNode.path("phaseNo").asText());
+		if(nextModelNode == null){
+			//do nothing.
+		}else {
+			if(nextModelNode.path("phaseNo").asText().equals(NodeStatus.SUCCESS_END.id) 
+					|| nextModelNode.path("phaseNo").asText().equals(NodeStatus.FAIL_END.id)){
+				ObjectNode dataNode = Contant.om.createObjectNode();
+				dataNode.put("objectNo", taskNode.path("objectNo").asText());
+				dataNode.put("objectType", taskNode.path("objectType").asText());
+				dataNode.put("relativeSerialNo", taskNode.path("serialNo").asText());
+				dataNode.put("flowNo", taskNode.path("flowNo").asText());
+				dataNode.put("flowName", taskNode.path("flowName").asText());
+				dataNode.put("phaseNo", nextModelNode.path("phaseNo").asText());
+				dataNode.put("phaseName", nextModelNode.path("phaseName").asText());
+				dataNode.put("phaseType", nextModelNode.path("phaseType").asText());
+				dataNode.put("beginTime", TimeUtil.now());
+				dataNode.put("endTime", TimeUtil.now());
+				dataNode.put("phasePinion", NodeStatus.AutoFinish.describe);//处理成功
+				dataNode.put("phasePinion2", NodeStatus.AutoFinish.id);//SUCCESS
+				dataNode.put("applyType", taskNode.path("applyType").asText());
+				flowService.insertWorkFlowTask(dataNode);
 			}else {
-				jdbcTemplate.update(
-				"update WorkFlowTask set endTime='"+TimeUtil.now()+"',phasePinion2='SUCCESS',phasePinion='空节点处理成功' where serialNo='"+taskNo+"'");
+				ObjectNode dataNode = Contant.om.createObjectNode();
+				dataNode.put("objectNo", taskNode.path("objectNo").asText());
+				dataNode.put("objectType", taskNode.path("objectType").asText());
+				dataNode.put("relativeSerialNo", taskNode.path("serialNo").asText());
+				dataNode.put("flowNo", taskNode.path("flowNo").asText());
+				dataNode.put("flowName", taskNode.path("flowName").asText());
+				dataNode.put("phaseNo", nextModelNode.path("phaseNo").asText());
+				dataNode.put("phaseName", nextModelNode.path("phaseName").asText());
+				dataNode.put("phaseType", nextModelNode.path("phaseType").asText());
+				dataNode.put("beginTime", TimeUtil.now());
+//				dataNode.put("endTime", );
+//				dataNode.put("phasePinion", );//处理成功
+//				dataNode.put("phasePinion2", );//SUCCESS
+				dataNode.put("applyType", taskNode.path("applyType").asText());
+				flowService.insertWorkFlowTask(dataNode);
 			}
 		}
-		return flag;
+		return null;
 	}
 }

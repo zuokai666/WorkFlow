@@ -1,6 +1,8 @@
 package org.zk.workflow.node;
 
+import org.zk.workflow.util.NodeStatus;
+
 public interface Node {
 	
-	public String run();
+	NodeStatus run() throws Exception;
 }

@@ -39,4 +39,25 @@ public class FlowServiceImpl implements FlowService {
 		Assert.oneData(rNodes.size());
 		return rNodes.get(0);
 	}
+
+	@Override
+	public void updateWorkFlowTask(String endTime, String phasePinion2, String phasePinion, String serialNo) {
+		flowDao.updateWorkFlowTask(endTime, phasePinion2, phasePinion, serialNo);
+	}
+	
+	@Override
+	public JsonNode getNextWorkFlowModelBy(String currentphaseNo) {
+		Assert.hasText(currentphaseNo, "currentphaseNo不能为空");
+		List<JsonNode> rNodes = flowDao.getNextWorkFlowModelBy(currentphaseNo);
+		if(rNodes.size() == 0){
+			return null;
+		}else {
+			return rNodes.get(0);
+		}
+	}
+	
+	@Override
+	public void insertWorkFlowTask(JsonNode node) {
+		flowDao.insertWorkFlowTask(node);
+	}
 }

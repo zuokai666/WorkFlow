@@ -14,4 +14,10 @@ public interface FlowService {
 	JsonNode getWorkFlowModelBy(String flowNo, String phaseNo);
 
 	JsonNode getWorkFlowTask(String serialNo);
+	
+	void updateWorkFlowTask(String endTime,String phasePinion2,String phasePinion,String serialNo);
+	
+	JsonNode getNextWorkFlowModelBy(String currentphaseNo);
+	
+	void insertWorkFlowTask(JsonNode node);
 }
