@@ -23,6 +23,10 @@ spring:
     password: d2p9bupt
     url: jdbc:mysql://localhost:3306/workflow
     driver-class-name: com.mysql.jdbc.Driver
+  mvc:
+    view:
+      prefix: /WEB-INF/html/
+      suffix: .html
 rabbit:
   queue:
     flow: workflow_zk
