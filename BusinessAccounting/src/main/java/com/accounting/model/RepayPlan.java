@@ -118,5 +118,6 @@ public class RepayPlan {
 	}
 	public void setAccrueInterest(BigDecimal accrueInterest) {
 		this.accrueInterest = accrueInterest;
+		System.err.println(accrueInterest);
 	}
 }

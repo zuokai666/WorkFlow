@@ -1,5 +1,6 @@
 package com.accounting.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,5 +27,17 @@ public class TM {
 			e.printStackTrace();
 		}
 		return "-1";
+	}
+	public static int intervalDate(String dateS1,String dateS2){
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat(tmp);
+			Date date1 = sdf.parse(dateS1);
+			Date date2 = sdf.parse(dateS2);
+			int days = (int) ((date2.getTime() - date1.getTime()) / (1000*3600*24));
+			return days;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 }

@@ -20,5 +20,6 @@ public class DayCutProcedure {
 		config.setBatchDate(TM.addDay(config.getBatchDate(), 1));
 		session.persist(config);
 		log.info("日切成功,当前业务日期:[{}],批量日期:[{}]", config.getBusinessDate(), config.getBatchDate());
+		map.put("businessDate", config.getBusinessDate());
 	}
 }

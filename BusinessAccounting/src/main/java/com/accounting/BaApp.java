@@ -17,7 +17,14 @@ public class BaApp {
 	public static void main(String[] args) {
 		Db.printDate();
 		loan();
-//		dayCut();
+		while(true){
+			dayCut();
+			try {
+				Thread.sleep(15 * 1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public static void dayCut(){
@@ -28,8 +35,8 @@ public class BaApp {
 	public static void loan() {
 		AccountingServiceImpl accountingService = new AccountingServiceImpl();
 		Map<String, Object> map = new HashMap<>();
-		map.put("loanAmount", new BigDecimal(1_0000_0000));
-		map.put("loanTerm", 12);
+		map.put("loanAmount", new BigDecimal(1_0000));
+		map.put("loanTerm", 10);
 		map.put("dayInterestRate", new BigDecimal(0.05));
 		boolean result = accountingService.loan(map);
 		if(result){

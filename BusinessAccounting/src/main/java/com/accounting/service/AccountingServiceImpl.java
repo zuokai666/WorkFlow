@@ -1,11 +1,13 @@
 package com.accounting.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.accounting.component.daycut.AccrueInterestProcedure;
 import com.accounting.component.daycut.DayCutProcedure;
 import com.accounting.component.loan.LoanInitProcedure;
 import com.accounting.component.loan.RepayPlanInitProcedure;
@@ -45,8 +47,11 @@ public class AccountingServiceImpl {
 		try {
 			session = Db.getSession();
 			session.getTransaction().begin();
+			Map<String, Object> map = new HashMap<>();
 			DayCutProcedure dayCutProcedure = new DayCutProcedure();
-			dayCutProcedure.run(session, null);
+			dayCutProcedure.run(session, map);
+			AccrueInterestProcedure accrueInterestProcedure = new AccrueInterestProcedure();
+			accrueInterestProcedure.run(session, map);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			log.error("", e);
