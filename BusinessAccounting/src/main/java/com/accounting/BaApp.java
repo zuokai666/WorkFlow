@@ -17,27 +17,25 @@ public class BaApp {
 	public static void main(String[] args) {
 		Db.printDate();
 		loan();
-		while(true){
-			dayCut();
-			try {
-				Thread.sleep(15 * 1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public static void dayCut(){
-		AccountingServiceImpl accountingService = new AccountingServiceImpl();
-		accountingService.dayCut();
+//		while(true){
+//			AccountingServiceImpl accountingService = new AccountingServiceImpl();
+//			accountingService.dayCut();
+//			accountingService.batchCharge();
+//			try {
+//				Thread.sleep(1 * 1000);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}
 	
 	public static void loan() {
 		AccountingServiceImpl accountingService = new AccountingServiceImpl();
 		Map<String, Object> map = new HashMap<>();
 		map.put("loanAmount", new BigDecimal(1_0000));
-		map.put("loanTerm", 10);
+		map.put("loanTerm", 3);
 		map.put("dayInterestRate", new BigDecimal(0.05));
+		map.put("accountId", 1);
 		boolean result = accountingService.loan(map);
 		if(result){
 			log.info("借款成功");

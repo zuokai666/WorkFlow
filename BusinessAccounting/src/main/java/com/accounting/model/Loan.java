@@ -17,6 +17,8 @@ public class Loan {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@Column(nullable=false)
+	private int accountId;
+	@Column(nullable=false)
 	private int term;//贷款期数
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal loanPrincipal;//贷款本金
@@ -45,6 +47,12 @@ public class Loan {
 	@Column(nullable=false,precision=10,scale=2)
 	private BigDecimal dayInterestRate;//执行日利率(%)
 	
+	public int getAccountId() {
+		return accountId;
+	}
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
+	}
 	public int getId() {
 		return id;
 	}

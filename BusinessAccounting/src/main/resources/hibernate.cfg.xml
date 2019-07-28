@@ -20,5 +20,7 @@
 		<mapping class="com.accounting.model.RepayPlan"/>
 		<mapping class="com.accounting.model.RepayFlow"/>
 		<mapping class="com.accounting.model.SystemConfig"/>
+		<mapping class="com.accounting.model.Account"/>
+		<mapping class="com.accounting.model.AccountDealFlow"/>
 	</session-factory>
 </hibernate-configuration>
