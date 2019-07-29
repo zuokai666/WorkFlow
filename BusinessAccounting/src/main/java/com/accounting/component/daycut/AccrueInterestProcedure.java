@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.accounting.model.RepayPlan;
+import com.accounting.util.Db;
 import com.accounting.util.TM;
 
 /**
@@ -21,7 +22,8 @@ public class AccrueInterestProcedure {
 	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(AccrueInterestProcedure.class);
 	
-	public void run(Session session,Map<String, Object> map){
+	public void run(Map<String, Object> map){
+		Session session = Db.getSession();
 		@SuppressWarnings("unchecked")
 		List<RepayPlan> repayPlans = session
 		.createQuery("from RepayPlan where startDate < :ddate and endDate >= :ddate")
@@ -29,7 +31,7 @@ public class AccrueInterestProcedure {
 		.list();
 		for(int i=0;i<repayPlans.size();i++){
 			RepayPlan repayPlan = repayPlans.get(i);
-			if(repayPlan.getEndDate().equals(map.get("businessDate"))){
+			if(repayPlan.getEndDate().equals(map.get("businessDate"))){//还款日，修正计提利息
 				repayPlan.setAccrueInterest(repayPlan.getRepayInterest());
 			}else {
 				double lastAccrueInterest = repayPlan.getAccrueInterest().doubleValue();

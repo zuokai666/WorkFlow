@@ -44,14 +44,22 @@ public class RepayPlan {
 	private BigDecimal accrueInterest;//计提利息
 //	@Column(nullable=false,precision=24,scale=2)
 //	private BigDecimal overdueInterest;//逾期利息
-	@Column(nullable=false,precision=10,scale=2)
-	private BigDecimal dayInterestRate;//执行日利率(%)
+	@Column(length=10)
+	private String finishDate;//当期结清日期
+	@Column(length=255)
+	private String remark;//备注
 	
-	public BigDecimal getDayInterestRate() {
-		return dayInterestRate;
+	public String getFinishDate() {
+		return finishDate;
 	}
-	public void setDayInterestRate(BigDecimal dayInterestRate) {
-		this.dayInterestRate = dayInterestRate;
+	public void setFinishDate(String finishDate) {
+		this.finishDate = finishDate;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 	public int getId() {
 		return id;

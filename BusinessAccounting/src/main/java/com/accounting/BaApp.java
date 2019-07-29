@@ -17,16 +17,15 @@ public class BaApp {
 	public static void main(String[] args) {
 		Db.printDate();
 		loan();
-//		while(true){
-//			AccountingServiceImpl accountingService = new AccountingServiceImpl();
-//			accountingService.dayCut();
-//			accountingService.batchCharge();
-//			try {
-//				Thread.sleep(1 * 1000);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		while(true){
+			AccountingServiceImpl accountingService = new AccountingServiceImpl();
+			accountingService.batchCharge();
+			try {
+				Thread.sleep(1 * 1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public static void loan() {

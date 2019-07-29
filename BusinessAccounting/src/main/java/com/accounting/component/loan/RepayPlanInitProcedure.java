@@ -65,7 +65,6 @@ public class RepayPlanInitProcedure {
 			plan.setRepayInterest(new BigDecimal(repayInterest));
 			plan.setRepayAmount(new BigDecimal(monthPay));
 			plan.setAccrueInterest(new BigDecimal(0));
-			plan.setDayInterestRate(dayInterestRate);
 			session.persist(plan);
 			interestPrincipal = interestPrincipal - repayPrincipal;
 		}
