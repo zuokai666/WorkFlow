@@ -19,6 +19,10 @@ public class Account {
 	@Column(nullable=false, length=10)
 	private String name;
 	@Column(nullable=false, length=18)
+	private String username;
+	@Column(nullable=false, length=18)
+	private String password;
+	@Column(nullable=false, length=18)
 	private String idNumber;
 	@Column(nullable=false, length=6)
 	private String bankCardNo;
@@ -27,6 +31,18 @@ public class Account {
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal amount;
 	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public int getId() {
 		return id;
 	}

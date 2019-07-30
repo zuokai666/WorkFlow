@@ -17,7 +17,7 @@ public class BaApp {
 	
 	public static void main(String[] args) {
 		DB.printDate();
-//		loan();
+		loan();
 //		while(true){
 //			ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
 //			scheduleService.dayCut();
@@ -35,9 +35,9 @@ public class BaApp {
 		
 		ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
 		scheduleService.dayCut();
-		
-		AccountingServiceImpl accountingService = new AccountingServiceImpl();
-		accountingService.batchCharge();
+//		
+//		AccountingServiceImpl accountingService = new AccountingServiceImpl();
+//		accountingService.batchCharge();
 	}
 	
 	public static void loan() {
