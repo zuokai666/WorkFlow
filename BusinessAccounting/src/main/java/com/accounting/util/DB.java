@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 
 import com.accounting.model.SystemConfig;
 
-public class Db {
+public class DB {
 	
-	private static final Logger log = LoggerFactory.getLogger(Db.class);
+	private static final Logger log = LoggerFactory.getLogger(DB.class);
 	
 	public static void printDate(){
 		Session session = getSession();

@@ -8,24 +8,36 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.accounting.service.AccountingServiceImpl;
-import com.accounting.util.Db;
+import com.accounting.service.ScheduleServiceImpl;
+import com.accounting.util.DB;
 
 public class BaApp {
 	
 	private static final Logger log = LoggerFactory.getLogger(BaApp.class);
 	
 	public static void main(String[] args) {
-		Db.printDate();
-		loan();
-		while(true){
-			AccountingServiceImpl accountingService = new AccountingServiceImpl();
-			accountingService.batchCharge();
-			try {
-				Thread.sleep(1 * 1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		DB.printDate();
+//		loan();
+//		while(true){
+//			ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
+//			scheduleService.dayCut();
+//			
+//			AccountingServiceImpl accountingService = new AccountingServiceImpl();
+//			accountingService.batchCharge();
+//			try {
+//				Thread.sleep(1 * 1000);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
+		
+		
+		
+		ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
+		scheduleService.dayCut();
+		
+		AccountingServiceImpl accountingService = new AccountingServiceImpl();
+		accountingService.batchCharge();
 	}
 	
 	public static void loan() {

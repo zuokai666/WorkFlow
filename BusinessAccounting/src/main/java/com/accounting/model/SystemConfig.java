@@ -16,7 +16,7 @@ public class SystemConfig {
 	private int id;
 	@Column(length=10)
 	private String businessDate;//业务日期
-	@Column(length=1)
+	@Column(length=10)
 	private String batchFlag;//批量标志
 	@Column(length=10)
 	private String batchDate;//批量日期

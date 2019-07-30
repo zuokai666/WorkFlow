@@ -13,7 +13,7 @@ import com.accounting.component.loan.RepayPlanInitProcedure;
 import com.accounting.component.loan.TableClearProcedure;
 import com.accounting.component.normalrepay.BatchChargeProcedure;
 import com.accounting.component.normalrepay.DayEndWaitProcedure;
-import com.accounting.util.Db;
+import com.accounting.util.DB;
 
 public class AccountingServiceImpl {
 	
@@ -22,7 +22,7 @@ public class AccountingServiceImpl {
 	public boolean loan(Map<String, Object> map){
 		Session session = null;
 		try {
-			session = Db.getSession();
+			session = DB.getSession();
 			session.getTransaction().begin();
 			TableClearProcedure tableClearProcedure = new TableClearProcedure();
 			tableClearProcedure.run(session, map);
@@ -46,23 +46,14 @@ public class AccountingServiceImpl {
 	}
 	
 	public void batchCharge(){
-		Session session = null;
 		try {
-			session = Db.getSession();
-			session.getTransaction().begin();
 			Map<String, Object> map = new HashMap<>();
 			DayEndWaitProcedure dayEndWaitProcedure = new DayEndWaitProcedure();
-			dayEndWaitProcedure.run(session, map);
+			dayEndWaitProcedure.run(map);
 			BatchChargeProcedure batchChargeProcedure = new BatchChargeProcedure();
-			batchChargeProcedure.run(session, map);
-			session.getTransaction().commit();
+			batchChargeProcedure.run(map);
 		} catch (Exception e) {
 			log.error("", e);
-			session.getTransaction().rollback();
-		} finally {
-			if(session != null){
-				session.close();
-			}
 		}
 	}
 }

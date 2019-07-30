@@ -8,36 +8,36 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.accounting.model.Loan;
 import com.accounting.model.RepayPlan;
-import com.accounting.util.Db;
 import com.accounting.util.TM;
 
 /**
  * 计提利息计算
- * 先不考虑数据量大的情况
- * 
  */
 public class AccrueInterestProcedure {
 	
 	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(AccrueInterestProcedure.class);
 	
-	public void run(Map<String, Object> map){
-		Session session = Db.getSession();
+	public void run(Session session, Loan loan, Map<String, Object> map){
+		String handleDate = loan.getHandleDate();
 		@SuppressWarnings("unchecked")
 		List<RepayPlan> repayPlans = session
-		.createQuery("from RepayPlan where startDate < :ddate and endDate >= :ddate")
-		.setParameter("ddate", map.get("businessDate"))
+		.createQuery("from RepayPlan where loanId = :loanId and startDate < :ddate and endDate >= :ddate")
+		.setParameter("loanId", loan.getId())
+		.setParameter("ddate", handleDate)
 		.list();
 		for(int i=0;i<repayPlans.size();i++){
 			RepayPlan repayPlan = repayPlans.get(i);
-			if(repayPlan.getEndDate().equals(map.get("businessDate"))){//还款日，修正计提利息
+			if(repayPlan.getEndDate().equals(handleDate)){//还款日，修正计提利息
 				repayPlan.setAccrueInterest(repayPlan.getRepayInterest());
 			}else {
 				double lastAccrueInterest = repayPlan.getAccrueInterest().doubleValue();
 				double dayReapyInterest = repayPlan.getRepayInterest().doubleValue() / TM.intervalDate(repayPlan.getStartDate(), repayPlan.getEndDate());
 				repayPlan.setAccrueInterest(new BigDecimal(lastAccrueInterest + dayReapyInterest));
 			}
+			session.persist(repayPlan);
 		}
 	}
 }

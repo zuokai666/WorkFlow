@@ -17,9 +17,9 @@ public class Loan {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@Column(nullable=false)
-	private int accountId;
+	private int accountId;//账户
 	@Column(nullable=false)
-	private int term;//贷款期数
+	private int term;//贷款总期数
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal loanPrincipal;//贷款本金
 	@Column(nullable=false,precision=24,scale=2)
@@ -28,8 +28,8 @@ public class Loan {
 	private BigDecimal repayInterest;//应还利息
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal repayAmount;//应还金额-总的意思
-	@Column(nullable=false)
-	private String repayMethod;//还款方式-暂定等额本息
+	@Column(nullable=false,length=10)
+	private String repayMethod;//还款方式
 	@Column(nullable=false,length=10)
 	private String loanDate;//放款日期
 	@Column(nullable=false,length=10)
@@ -46,7 +46,23 @@ public class Loan {
 	private String finishDate;//结清日期
 	@Column(nullable=false,precision=10,scale=2)
 	private BigDecimal dayInterestRate;//执行日利率(%)
+	@Column(nullable=false,length=10)
+	private String handleDate;//业务处理日期
+	@Column(nullable=false,length=10)
+	private String loanStatus;//借据状态
 	
+	public String getLoanStatus() {
+		return loanStatus;
+	}
+	public void setLoanStatus(String loanStatus) {
+		this.loanStatus = loanStatus;
+	}
+	public String getHandleDate() {
+		return handleDate;
+	}
+	public void setHandleDate(String handleDate) {
+		this.handleDate = handleDate;
+	}
 	public int getAccountId() {
 		return accountId;
 	}

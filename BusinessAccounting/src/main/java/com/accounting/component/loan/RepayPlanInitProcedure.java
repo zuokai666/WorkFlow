@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.accounting.model.Loan;
 import com.accounting.model.RepayPlan;
-import com.accounting.util.Db;
+import com.accounting.util.DB;
 import com.accounting.util.TM;
 
 /**
@@ -38,7 +38,7 @@ public class RepayPlanInitProcedure {
 		Integer loanTerm = (Integer) map.get("loanTerm");
 		BigDecimal loanAmount = (BigDecimal) map.get("loanAmount");
 		Loan initLoan = (Loan) map.get("initLoan");
-		String bizDate = Db.getBusinessDate(session);
+		String bizDate = DB.getBusinessDate(session);
 		
 		//计算月供
 		double monthPay = getMonthPay(dayInterestRate, loanTerm, loanAmount);

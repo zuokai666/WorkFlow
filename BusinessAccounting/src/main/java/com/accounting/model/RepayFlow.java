@@ -22,8 +22,9 @@ public class RepayFlow {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private int loanId;//借据编号
-	private int repayMode;//还款类型-主动还款，代扣，代偿回购
-	@Column(length=10)
+	@Column(nullable=false,length=10)
+	private String repayMode;//还款类型
+	@Column(nullable=false,length=10)
 	private String repayDate;//支付日
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal paidAmount;//实还金额
@@ -44,10 +45,10 @@ public class RepayFlow {
 	public void setLoanId(int loanId) {
 		this.loanId = loanId;
 	}
-	public int getRepayMode() {
+	public String getRepayMode() {
 		return repayMode;
 	}
-	public void setRepayMode(int repayMode) {
+	public void setRepayMode(String repayMode) {
 		this.repayMode = repayMode;
 	}
 	public String getRepayDate() {

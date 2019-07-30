@@ -8,7 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.accounting.model.Loan;
-import com.accounting.util.Db;
+import com.accounting.util.Constant;
+import com.accounting.util.DB;
 import com.accounting.util.TM;
 
 public class LoanInitProcedure {
@@ -24,14 +25,16 @@ public class LoanInitProcedure {
 		BigDecimal dayInterestRate = (BigDecimal) map.get("dayInterestRate");
 		Integer loanTerm = (Integer) map.get("loanTerm");
 		BigDecimal loanAmount = (BigDecimal) map.get("loanAmount");
-		String bizDate = Db.getBusinessDate(session);
+		String bizDate = DB.getBusinessDate(session);
 		Loan loan = new Loan();
 		loan.setTerm(loanTerm);
 		int accountId = (int) map.get("accountId");
 		loan.setAccountId(accountId);
 		loan.setLoanPrincipal(loanAmount);
-		loan.setRepayMethod("DEBX");
+		loan.setRepayMethod(Constant.interestmethod_debx);
 		loan.setLoanDate(bizDate);
+		loan.setHandleDate(bizDate);
+		loan.setLoanStatus(Constant.loanstatus_zc);
 		loan.setStartDate(bizDate);
 		loan.setEndDate(TM.addMonth(bizDate, loanTerm));
 		loan.setPaidPrincipal(new BigDecimal(0));
