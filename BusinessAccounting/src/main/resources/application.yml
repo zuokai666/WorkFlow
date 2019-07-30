@@ -1,0 +1,15 @@
+server:
+  port: 9999
+  servlet:
+    context-path: /bizAcct
+spring:
+  application:
+    name: bizAcct
+  profiles:
+    active: dev
+  mvc:
+    view:
+      prefix: /html/
+      suffix: .html
+  resources:
+    static-locations: classpath:/META-INF/resources/

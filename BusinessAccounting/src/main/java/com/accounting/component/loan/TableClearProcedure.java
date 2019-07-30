@@ -17,13 +17,13 @@ public class TableClearProcedure {
 	private static final Logger log = LoggerFactory.getLogger(TableClearProcedure.class);
 	
 	public void run(Session session,Map<String, Object> map){
-		int rows = session.createSQLQuery("delete from Loan").executeUpdate();
+		int rows = session.createNativeQuery("delete from Loan").executeUpdate();
 		log.info("影响行数:[{}]", rows);
 		
-		rows = session.createSQLQuery("delete from RepayFlow").executeUpdate();
+		rows = session.createNativeQuery("delete from RepayFlow").executeUpdate();
 		log.info("影响行数:[{}]", rows);
 		
-		rows = session.createSQLQuery("delete from RepayPlan").executeUpdate();
+		rows = session.createNativeQuery("delete from RepayPlan").executeUpdate();
 		log.info("影响行数:[{}]", rows);
 	}
 }
