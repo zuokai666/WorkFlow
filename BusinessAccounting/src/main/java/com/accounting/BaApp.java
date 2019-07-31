@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.accounting.service.AccountingServiceImpl;
 import com.accounting.service.ScheduleServiceImpl;
+import com.accounting.util.Constant;
 import com.accounting.util.DB;
 
 public class BaApp {
@@ -17,24 +18,24 @@ public class BaApp {
 	
 	public static void main(String[] args) {
 		DB.printDate();
-		loan();
-//		while(true){
-//			ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
-//			scheduleService.dayCut();
-//			
-//			AccountingServiceImpl accountingService = new AccountingServiceImpl();
-//			accountingService.batchCharge();
-//			try {
-//				Thread.sleep(1 * 1000);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
+//		loan();
+		while(true){
+			ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
+			scheduleService.dayCut();
+			
+			AccountingServiceImpl accountingService = new AccountingServiceImpl();
+			accountingService.batchCharge();
+			try {
+				Thread.sleep(1 * 1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		
 		
-		ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
-		scheduleService.dayCut();
+//		ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
+//		scheduleService.dayCut();
 //		
 //		AccountingServiceImpl accountingService = new AccountingServiceImpl();
 //		accountingService.batchCharge();
@@ -47,6 +48,10 @@ public class BaApp {
 		map.put("loanTerm", 3);
 		map.put("dayInterestRate", new BigDecimal(0.05));
 		map.put("accountId", 1);
+//		map.put("repaymethod", Constant.repaymethod_debx);
+//		map.put("repaymethod", Constant.repaymethod_debj);
+//		map.put("repaymethod", Constant.repaymethod_xxhb);
+		map.put("repaymethod", Constant.repaymethod_one);
 		boolean result = accountingService.loan(map);
 		if(result){
 			log.info("借款成功");

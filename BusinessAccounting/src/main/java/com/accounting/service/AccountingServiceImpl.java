@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import com.accounting.component.loan.LoanCheckProcedure;
 import com.accounting.component.loan.LoanInitProcedure;
+import com.accounting.component.loan.LoanInterceptProcedure;
 import com.accounting.component.loan.RepayPlanInitProcedure;
-import com.accounting.component.loan.TableClearProcedure;
 import com.accounting.component.normalrepay.BatchChargeProcedure;
 import com.accounting.component.normalrepay.DayEndWaitProcedure;
 import com.accounting.util.DB;
@@ -24,12 +24,14 @@ public class AccountingServiceImpl {
 		try {
 			session = DB.getSession();
 			session.getTransaction().begin();
-			TableClearProcedure tableClearProcedure = new TableClearProcedure();
-			tableClearProcedure.run(session, map);
+//			TableClearProcedure tableClearProcedure = new TableClearProcedure();
+//			tableClearProcedure.run(session, map);
 			LoanCheckProcedure loanCheckProcedure = new LoanCheckProcedure();
 			loanCheckProcedure.run(session, map);
 			LoanInitProcedure loanInitProcedure = new LoanInitProcedure();
 			loanInitProcedure.run(session, map);
+			LoanInterceptProcedure loanInterceptProcedure = new LoanInterceptProcedure();
+			loanInterceptProcedure.run(session, map);
 			RepayPlanInitProcedure repayPlanInitProcedure = new RepayPlanInitProcedure();
 			repayPlanInitProcedure.run(session, map);
 			session.getTransaction().commit();

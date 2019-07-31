@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.accounting.component.repaymethod.RepaySchedule;
+
 /**
  * 还款计划表
  * 
@@ -16,7 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="RepayPlan")
-public class RepayPlan {
+public class RepayPlan implements RepaySchedule{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

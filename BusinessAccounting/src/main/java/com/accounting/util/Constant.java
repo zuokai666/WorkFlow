@@ -15,6 +15,8 @@ public class Constant {
 	
 	public static final String repaymode_zchk = "zchk";//正常还款
 	
-	public static final String interestmethod_debx = "debx";//等额本息
-	
+	public static final String repaymethod_debx = "debx";//等额本息
+	public static final String repaymethod_debj = "debj";//等额本金
+	public static final String repaymethod_xxhb = "xxhb";//先息后本
+	public static final String repaymethod_one = "one";//一次性还本付息
 }
