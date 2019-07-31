@@ -32,5 +32,6 @@ public class ChangeDateProcedure {
 		session.getTransaction().commit();
 		log.info("日切成功,当前业务日期:[{}],批量日期:[{}],状态:[{}]", config.getBusinessDate(), config.getBatchDate(), config.getBatchFlag());
 		map.put("businessDate", config.getBusinessDate());
+		map.put("batchDate", config.getBatchDate());
 	}
 }
