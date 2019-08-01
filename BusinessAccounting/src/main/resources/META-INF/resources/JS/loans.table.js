@@ -1,10 +1,10 @@
-var $table = $('#table');
-var $remove = $('#remove');
-var $add = $('#add');
+var $table1 = $('#table1');
+var $lookRepayPlan = $('#lookRepayPlan');
+var $lookRepayFlow = $('#lookRepayFlow');
 var $update = $('#update');
 
 function initTable() {
-    $table.bootstrapTable({
+    $table1.bootstrapTable({
     	url: "../loan/listLoans",
     	reinit: false,
     	classes: "table table-hover",
@@ -18,6 +18,12 @@ function initTable() {
         columns:
             [	
             	{
+            		checkbox: true,
+            	}, {
+                    field: 'id',
+                    title: '编号',
+                    visiable: 'false'
+                }, {
                     field: 'term',
                     title: '期数',
                     align: 'center'
@@ -64,39 +70,35 @@ function initTable() {
 
 
 function getIdSelections() {
-    return $.map($table.bootstrapTable('getSelections'), function (row) {
+    return $.map($table1.bootstrapTable('getSelections'), function (row) {
         return row.id
     });
 }
 
-function addButtonEvent(){
-	$remove.click(function () {
-	    var ids = getIdSelections();
-	    if(ids==""){
+function addButton2Event(){
+	$lookRepayPlan.click(function () {
+	    var loanId = getIdSelections();
+	    if(loanId==""){
 	    	layer.msg("至少选择一条", {icon: 5});
 	    	return;
 	    }
-	    $.ajax({
-		   type: "POST",
-		   url: "../goodsType/delInBoxMessage",
-		   data:"ids="+ids,
-		   success: function(msg){
-			   if(msg.result=="1"){
-				   layer.msg(msg.tip, {icon: 6,time:1000},function(){
-					   $table.bootstrapTable('remove', {
-					        field: 'id',
-					        values: ids
-					   });
-				   });
-			   }else{
-				   layer.msg(msg.tip, {icon: 5});
-			   }
-		   }
- 		});
+	    initTable2(loanId);
+	});
+}
+
+function addButton3Event(){
+	$lookRepayFlow.click(function () {
+	    var loanId = getIdSelections();
+	    if(loanId==""){
+	    	layer.msg("至少选择一条", {icon: 5});
+	    	return;
+	    }
+	    initTable3(loanId);
 	});
 }
 
 $(function() {
 	initTable();
-	
+	addButton2Event();
+	addButton3Event();
 });

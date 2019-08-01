@@ -42,12 +42,42 @@
 
     <div class="container">
 		<div class="jumbotron">
-        <h1>欢迎回来</h1>
-        <p>这里是信贷系统的首页，用于展示信贷的状态，列表，统计等等</p>
+        <p>欢迎贷款</p>
       </div>
 
-		
+		<form>
+		  <div class="form-group">
+		    <label for="exampleInputEmail1">贷款金额(元)</label>
+		    <input type="text" class="form-control" id="loanAmount">
+		  </div>
+		  <div class="form-group">
+		    <label for="exampleInputPassword1">还款方式</label>
+		    <select class="form-control" id="repaymethod">
+			  <option value="debx">等额本息</option>
+			  <option value="debj">等额本金</option>
+			  <option value="xxhb">先息后本</option>
+			  <option value="one">一次性还本付息</option>
+			</select>
+		  </div>
+		  <div class="form-group">
+		    <label for="exampleInputPassword1">贷款期数</label>
+		    <select class="form-control" id="loanTerm">
+			  <option>3</option>
+			  <option>6</option>
+			  <option>9</option>
+			  <option>12</option>
+			</select>
+		  </div>
+		  <div class="form-group">
+		    <label for="exampleInputPassword1">贷款日利率(%)</label>
+		    <select class="form-control" id="dayInterestRate">
+			  <option>0.05</option>
+			</select>
+		  </div>
+		  <button type="button" id="button" class="btn btn-primary btn-lg btn-block">申请贷款</button>
+		</form>
       
+      <br/><br/>
 
     </div>
 	<footer class="footer">
@@ -58,5 +88,34 @@
 	
     <script src="../JS/jquery.min.js"></script>
     <script src="../JS/bootstrap.min.js"></script>
+    <script src="../JS/king.common.js"></script>
+    <script src="../JS/layer/layer.js"></script>
+    <script type="text/javascript">
+	    $(function($){
+			$("#button").click(function(){
+				var loanAmount=$("#loanAmount").val();
+				var loanTerm=$("#loanTerm").val();
+				var dayInterestRate=$("#dayInterestRate").val();
+				var repaymethod=$("#repaymethod").val();
+				if(verify(loanAmount)){
+					layer.msg("贷款未填写", {icon:5,time:1500});
+					return;
+				}else{
+				    $.ajax({
+					   type: "POST",
+					   url: "../loan/doLoanAction",
+					   data:"loanAmount="+loanAmount+"&loanTerm="+loanTerm+"&dayInterestRate="+dayInterestRate+"&repaymethod="+repaymethod,
+					   success: function(msg){
+						   if(msg.result=="1"){
+							   layer.msg(msg.tip, {icon:5,time:1500});
+						   }else{
+							   layer.msg(msg.tip, {icon:5,time:1500});
+						   }
+					   }
+			 		});
+				}
+			});
+		});
+    </script>
   </body>
 </html>

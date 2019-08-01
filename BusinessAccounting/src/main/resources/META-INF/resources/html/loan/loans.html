@@ -44,7 +44,26 @@
 
 	<div class="container">
 		<h1>借据列表</h1>
-		<table id="table"></table>
+		<div id="toolbar">
+				<button id="lookRepayPlan" class="btn btn-info">
+		            <i class="glyphicon glyphicon glyphicon-plus"></i> 查看还款计划
+		        </button>
+		        <button id="lookRepayFlow" class="btn btn-info">
+		            <i class="glyphicon glyphicon glyphicon-pencil"></i> 查看还款流水
+		        </button>
+		        <button id="a" class="btn btn-warning">
+		            <i class="glyphicon glyphicon-trash"></i> 还款
+		        </button>
+		    </div>
+		<table id="table1"></table>
+	</div>
+	<div class="container">
+		<h1>还款计划</h1>
+		<table id="table2"></table>
+	</div>
+	<div class="container">
+		<h1>还款流水</h1>
+		<table id="table3"></table>
 	</div>
 	<br/><br/><br/><br/><br/>
 	<footer class="footer">
@@ -53,11 +72,14 @@
 				&nbsp;&nbsp;京ICP备99999999号</p>
 		</div>
 	</footer>
-
+	
 	<script src="../JS/jquery.min.js"></script>
+	<script src="../JS/layer/layer.js"></script>
 	<script src="../JS/bootstrap.min.js"></script>
 	<script src="../JS/bootstrap-table.js"></script>
 	<script src="../JS/bootstrap-table-zh-CN.js"></script>
 	<script src="../JS/loans.table.js"></script>
+	<script src="../JS/repayplan.table.js"></script>
+	<script src="../JS/repayflow.table.js"></script>
 </body>
 </html>
