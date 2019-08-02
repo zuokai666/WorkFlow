@@ -1,7 +1,9 @@
 var $table1 = $('#table1');
 var $lookRepayPlan = $('#lookRepayPlan');
 var $lookRepayFlow = $('#lookRepayFlow');
-var $update = $('#update');
+var $dqhk = $('#dqhk');
+var $tqjqCur = $('#tqjqCur');
+var $tqjqAll = $('#tqjqAll');
 
 function initTable() {
     $table1.bootstrapTable({
@@ -30,14 +32,6 @@ function initTable() {
                 }, {
                     field: 'loanPrincipal',
                     title: '贷款本金',
-                    align: 'center'
-                }, {
-                    field: 'repayInterest',
-                    title: '应还利息',
-                    align: 'center'
-                }, {
-                    field: 'repayAmount',
-                    title: '应还金额',
                     align: 'center'
                 }, {
                     field: 'repayMethod',
@@ -97,8 +91,66 @@ function addButton3Event(){
 	});
 }
 
+function addButtonEvent_dqhk(){
+	$lookRepayFlow.click(function () {
+	    var loanId = getIdSelections();
+	    if(loanId==""){
+	    	layer.msg("至少选择一条", {icon: 5});
+	    	return;
+	    }
+	    $.ajax({
+		   type: "POST",
+		   url: "../repay/repayAction",
+		   data:"loanId="+loanId+"&repaymode=dqhk",
+		   success: function(msg){
+			   layer.msg(msg.tip, {icon:5,time:1500});
+		   }
+ 		});
+	});
+}
+
+function addButtonEvent_tqjqCur(){
+	$tqjqCur.click(function () {
+	    var loanId = getIdSelections();
+	    if(loanId==""){
+	    	layer.msg("至少选择一条", {icon: 5});
+	    	return;
+	    }
+	    $.ajax({
+		   type: "POST",
+		   url: "../repay/repayAction",
+		   data:"loanId="+loanId+"&repaymode=tqjqCur",
+		   success: function(msg){
+			   layer.msg(msg.tip, {icon:5,time:1500});
+		   }
+ 		});
+	});
+}
+
+function addButtonEvent_tqjqAll(){
+	$tqjqAll.click(function () {
+	    var loanId = getIdSelections();
+	    if(loanId==""){
+	    	layer.msg("至少选择一条", {icon: 5});
+	    	return;
+	    }
+	    $.ajax({
+		   type: "POST",
+		   url: "../repay/repayAction",
+		   data:"loanId="+loanId+"&repaymode=tqjqAll",
+		   success: function(msg){
+			   layer.msg(msg.tip, {icon:5,time:1500});
+		   }
+ 		});
+	});
+}
+
 $(function() {
 	initTable();
 	addButton2Event();
 	addButton3Event();
+	
+	addButtonEvent_dqhk();
+	addButtonEvent_tqjqCur();
+	addButtonEvent_tqjqAll();
 });

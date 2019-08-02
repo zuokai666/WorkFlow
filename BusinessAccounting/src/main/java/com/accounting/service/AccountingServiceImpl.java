@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.accounting.bean.BizResponse;
 import com.accounting.component.loan.LoanCheckUnClearProcedure;
 import com.accounting.component.loan.LoanInitProcedure;
 import com.accounting.component.loan.LoanInterceptProcedure;
@@ -19,7 +20,8 @@ public class AccountingServiceImpl {
 	
 	private static final Logger log = LoggerFactory.getLogger(AccountingServiceImpl.class);
 	
-	public boolean loan(Map<String, Object> map){
+	public BizResponse loan(Map<String, Object> map){
+		BizResponse.Builder builder = new BizResponse.Builder();
 		Session session = null;
 		try {
 			session = DB.getSession();
@@ -35,19 +37,20 @@ public class AccountingServiceImpl {
 			RepayPlanInitProcedure repayPlanInitProcedure = new RepayPlanInitProcedure();
 			repayPlanInitProcedure.run(session, map);
 			session.getTransaction().commit();
-			return true;
+			return builder.success().tip("贷款成功").build();
 		} catch (Exception e) {
 			log.error("", e);
 			session.getTransaction().rollback();
+			return builder.fail().tip("贷款失败:" + e.getMessage()).build();
 		} finally {
 			if(session != null){
 				session.close();
 			}
 		}
-		return false;
 	}
 	
-	public boolean repay(Map<String, Object> map){
+	public BizResponse repay(Map<String, Object> map){
+		BizResponse.Builder builder = new BizResponse.Builder();
 		Session session = null;
 		try {
 			session = DB.getSession();
@@ -59,15 +62,15 @@ public class AccountingServiceImpl {
 			AdaptiveRepayProcedure adaptiveRepayProcedure = new AdaptiveRepayProcedure();
 			adaptiveRepayProcedure.run(session, map);
 			session.getTransaction().commit();
-			return true;
+			return builder.success().tip("偿还成功").build();
 		} catch (Exception e) {
 			log.error("", e);
 			session.getTransaction().rollback();
+			return builder.fail().tip("偿还失败:" + e.getMessage()).build();
 		} finally {
 			if(session != null){
 				session.close();
 			}
 		}
-		return false;
 	}
 }

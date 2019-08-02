@@ -28,7 +28,7 @@ public class LoanCheckUnClearProcedure {
 				.setParameter("accountId", accountId)
 				.list();
 		if(loans.size() > 0){
-			throw new UnClearedLoanException("借据未结清:"+loans.get(0).getId());
+			throw new UnClearedLoanException("借据号["+loans.get(0).getId()+"]未结清");
 		}
 	}
 }

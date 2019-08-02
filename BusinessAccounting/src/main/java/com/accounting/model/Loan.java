@@ -22,12 +22,6 @@ public class Loan {
 	private int term;//贷款总期数
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal loanPrincipal;//贷款本金
-	@Column(nullable=false,precision=24,scale=2)
-	private BigDecimal repayPrincipal;//应还本金
-	@Column(nullable=false,precision=24,scale=2)
-	private BigDecimal repayInterest;//应还利息
-	@Column(nullable=false,precision=24,scale=2)
-	private BigDecimal repayAmount;//应还金额-总的意思
 	@Column(nullable=false,length=10)
 	private String repayMethod;//还款方式
 	@Column(nullable=false,length=10)
@@ -140,23 +134,5 @@ public class Loan {
 	}
 	public void setDayInterestRate(BigDecimal dayInterestRate) {
 		this.dayInterestRate = dayInterestRate;
-	}
-	public BigDecimal getRepayPrincipal() {
-		return repayPrincipal;
-	}
-	public void setRepayPrincipal(BigDecimal repayPrincipal) {
-		this.repayPrincipal = repayPrincipal;
-	}
-	public BigDecimal getRepayInterest() {
-		return repayInterest;
-	}
-	public void setRepayInterest(BigDecimal repayInterest) {
-		this.repayInterest = repayInterest;
-	}
-	public BigDecimal getRepayAmount() {
-		return repayAmount;
-	}
-	public void setRepayAmount(BigDecimal repayAmount) {
-		this.repayAmount = repayAmount;
 	}
 }

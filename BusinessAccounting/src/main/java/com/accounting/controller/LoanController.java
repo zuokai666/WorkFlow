@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.accounting.bean.BizResponse;
 import com.accounting.model.Account;
 import com.accounting.model.Loan;
 import com.accounting.model.RepayFlow;
@@ -35,14 +36,15 @@ public class LoanController {
 	}
 	
 	@RequestMapping(value="/doLoanAction",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public String loginAction(
+	public BizResponse loginAction(
 			@RequestParam("loanAmount") String loanAmount,
 			@RequestParam("loanTerm") int loanTerm,
 			@RequestParam("dayInterestRate") String dayInterestRate,
 			@RequestParam("repaymethod") String repaymethod){
 		Integer accountId = (Integer) request.getSession().getAttribute("accoundId");
 		if(accountId == null){
-			return "{\"result\":\"0\",\"tip\":\"账户未登录，贷款失败\"}";
+			BizResponse.Builder builder = new BizResponse.Builder();
+			return builder.fail().tip("账户未登录，贷款失败").build();
 		}
 		AccountingServiceImpl accountingService = new AccountingServiceImpl();
 		Map<String, Object> map = new HashMap<>();
@@ -51,12 +53,7 @@ public class LoanController {
 		map.put("dayInterestRate", new BigDecimal(dayInterestRate));
 		map.put("accountId", accountId);
 		map.put("repaymethod", repaymethod);
-		boolean result = accountingService.loan(map);
-		if(result){
-			return "{\"result\":\"1\",\"tip\":\"贷款成功\"}";
-		}else {
-			return "{\"result\":\"0\",\"tip\":\"贷款失败\"}";
-		}
+		return accountingService.loan(map);
 	}
 	
 	@RequestMapping(value="/loans")

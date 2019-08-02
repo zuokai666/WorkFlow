@@ -24,7 +24,7 @@ public class AccrueInterestProcedure {
 		String handleDate = loan.getHandleDate();
 		@SuppressWarnings("unchecked")
 		List<RepayPlan> repayPlans = session
-		.createQuery("from RepayPlan where loanId = :loanId and startDate < :ddate and endDate >= :ddate")
+		.createQuery("from RepayPlan where loanId = :loanId and startDate < :ddate and endDate >= :ddate and finishDate is null")
 		.setParameter("loanId", loan.getId())
 		.setParameter("ddate", handleDate)
 		.list();

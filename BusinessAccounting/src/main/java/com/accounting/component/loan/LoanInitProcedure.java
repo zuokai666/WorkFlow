@@ -37,9 +37,6 @@ public class LoanInitProcedure {
 		loan.setPaidInterest(new BigDecimal(0));
 		loan.setPaidAmount(new BigDecimal(0));
 		loan.setDayInterestRate(dayInterestRate);
-		loan.setRepayPrincipal(new BigDecimal(0));
-		loan.setRepayInterest(new BigDecimal(0));
-		loan.setRepayAmount(new BigDecimal(0));
 		session.persist(loan);
 		map.put("initLoan", loan);
 		log.info("借据表数据插入成功");

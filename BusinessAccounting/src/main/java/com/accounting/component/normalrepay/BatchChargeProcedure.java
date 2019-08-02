@@ -32,7 +32,15 @@ public class BatchChargeProcedure {
 			DueRepayProcedure dueRepayProcedure = new DueRepayProcedure();
 			for(int i=0;i<loanIds.size();i++){
 				int loanId = loanIds.get(i);
-				dueRepayProcedure.run(map, session, loanId);
+				try {
+					session.getTransaction().begin();
+					dueRepayProcedure.run(map, session, loanId);
+					session.getTransaction().commit();//释放借据
+				} catch (Exception e) {
+					log.error("", e);
+					session.getTransaction().rollback();
+				}
+				session.clear();//help gc
 			}
 		} catch (Exception e) {
 			log.error("", e);

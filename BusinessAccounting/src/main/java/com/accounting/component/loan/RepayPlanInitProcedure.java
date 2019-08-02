@@ -46,17 +46,10 @@ public class RepayPlanInitProcedure {
 			throw new UnSupportRepayMethodException("不支持的还款方式:" + repaymethodName);
 		}
 		repayMethod.fire(repaySchedules, bizDate, dayInterestRate, loanTerm, loanAmount);
-		BigDecimal totalRepayInterest = new BigDecimal(0);
 		for(int i=0;i<repaySchedules.size();i++){
 			RepayPlan plan = (RepayPlan) repaySchedules.get(i);
-			totalRepayInterest = totalRepayInterest.add(plan.getRepayInterest());
 			session.persist(plan);
 		}
 		log.info("还款计划表数据插入成功");
-		initLoan.setRepayPrincipal(loanAmount);
-		initLoan.setRepayInterest(totalRepayInterest);
-		initLoan.setRepayAmount(totalRepayInterest.add(loanAmount));
-		session.persist(initLoan);
-		log.info("更新借据表应还金额信息");
 	}
 }

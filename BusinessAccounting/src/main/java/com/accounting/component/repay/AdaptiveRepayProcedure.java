@@ -19,9 +19,11 @@ public class AdaptiveRepayProcedure {
 			DQHKProcedure dqhkProcedure = new DQHKProcedure();
 			dqhkProcedure.run(session, map);
 		}else if(repaymode.equals(Constant.repaymode_tqjqCur)){
-			
+			TQJQCurrentProcedure tqjqCurrentProcedure = new TQJQCurrentProcedure();
+			tqjqCurrentProcedure.run(session, map);
 		}else if(repaymode.equals(Constant.repaymode_tqjqAll)){
-			
+			TQJQAllProcedure tqjqAllProcedure = new TQJQAllProcedure();
+			tqjqAllProcedure.run(session, map);
 		}else {
 			throw new UnsupportedOperationException("不支持其它还款方式");
 		}

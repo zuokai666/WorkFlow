@@ -6,7 +6,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.accounting.component.daycut.BillStatisticsProcedure;
 import com.accounting.component.daycut.ChangeDateProcedure;
 import com.accounting.component.daycut.EodProcedure;
 import com.accounting.component.normalrepay.BatchChargeProcedure;
@@ -33,8 +32,8 @@ public class ScheduleServiceImpl {
 			dayCutProcedure.run(map);
 			EodProcedure eodProcedure = new EodProcedure();
 			eodProcedure.run(map);
-			BillStatisticsProcedure billStatisticsProcedure = new BillStatisticsProcedure();
-			billStatisticsProcedure.run(map);
+//			BillStatisticsProcedure billStatisticsProcedure = new BillStatisticsProcedure();
+//			billStatisticsProcedure.run(map);
 			EodCompleteProcedure eodCompleteProcedure = new EodCompleteProcedure();
 			eodCompleteProcedure.run(map);
 		} catch (Exception e) {

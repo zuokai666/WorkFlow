@@ -31,7 +31,7 @@ public class DQHKProcedure {
 				.setParameter("ddate", businessDate)
 				.list();
 		if(repayPlans.size() !=1){
-			throw new MistakeReapyModeException("没有找到符合到期还款的条件:size=" + repayPlans.size());
+			throw new MistakeReapyModeException("不符合到期还款");
 		}else {
 			DueRepayProcedure dueRepayProcedure = new DueRepayProcedure();
 			dueRepayProcedure.run(map, session, loanId);
