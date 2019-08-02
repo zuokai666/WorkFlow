@@ -1,8 +1,8 @@
 var $table2 = $('#table2');
 
-function initTable2(loanId) {
+function initTable2() {
     $table2.bootstrapTable({
-    	url: "../loan/repayscheduleAction?loanId="+loanId,
+    	url: "../loan/repayscheduleAction?loanId=0",
     	reinit: false,
     	classes: "table table-hover",
     	pagination: true,
@@ -27,10 +27,6 @@ function initTable2(loanId) {
                 }, {
                     field: 'endDate',
                     title: '截止日期',
-                    align: 'center'
-                }, {
-                    field: 'payDate',
-                    title: '应付日',
                     align: 'center'
                 }, {
                     field: 'repayPrincipal',

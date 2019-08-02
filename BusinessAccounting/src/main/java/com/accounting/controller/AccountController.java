@@ -27,7 +27,7 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value="/listAction",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public Account listAction(){
+	public List<Account> listAction(){
 		Integer accountId = (Integer) request.getSession().getAttribute("accoundId");
 		Session session = DB.getSession();
 		@SuppressWarnings("unchecked")
@@ -35,10 +35,6 @@ public class AccountController {
 				.createQuery("from Account where id = :id")
 				.setParameter("id", accountId)
 				.list();
-		if(accountIds.size() == 0){
-			return new Account();
-		}else {
-			return accountIds.get(0);
-		}
+		return accountIds;
 	}
 }

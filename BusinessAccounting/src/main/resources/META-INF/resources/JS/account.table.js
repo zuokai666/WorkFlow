@@ -21,8 +21,8 @@ function initTable1() {
                     visiable: 'false'
                 }, {
                     field: 'name',
-                    title: '期数',
-                    align: '姓名'
+                    title: '姓名',
+                    align: 'center'
                 }, {
                     field: 'idNumber',
                     title: '身份证号',
@@ -45,5 +45,5 @@ function initTable1() {
 }
 
 $(function() {
-	initTable();
+	initTable1();
 });

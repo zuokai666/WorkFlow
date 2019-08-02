@@ -5,7 +5,7 @@ var $dqhk = $('#dqhk');
 var $tqjqCur = $('#tqjqCur');
 var $tqjqAll = $('#tqjqAll');
 
-function initTable() {
+function initTable1() {
     $table1.bootstrapTable({
     	url: "../loan/listLoans",
     	reinit: false,
@@ -13,14 +13,15 @@ function initTable() {
     	pagination: true,
     	toolbar: "#toolbar",
     	search: true,
-    	striped: true,
+    	striped: true,//是否显示行间隔色
+    	clickToSelect: true,//是否启用点击选中行
     	responseHandler: function (res) {
             return res;
         },
         columns:
             [	
             	{
-            		checkbox: true,
+            		radio: true,
             	}, {
                     field: 'id',
                     title: '编号',
@@ -36,7 +37,20 @@ function initTable() {
                 }, {
                     field: 'repayMethod',
                     title: '还款方式',
-                    align: 'center'
+                    align: 'center',
+                    formatter:function(value,row,index){
+                    	if(value == "debx"){
+                    		return "等额本息";
+                    	}else if(value == "debj"){
+                    		return "等额本金";
+                    	}else if(value == "xxhb"){
+                    		return "先息后本";
+                    	}else if(value == "one"){
+                    		return "一次性还本付息";
+                    	}else {
+                    		return value;
+                    	}
+                    }
                 }, {
                     field: 'loanDate',
                     title: '放款日期',
@@ -56,7 +70,22 @@ function initTable() {
                 }, {
                     field: 'loanStatus',
                     title: '借据状态',
-                    align: 'center'
+                    align: 'center',
+                    formatter:function(value,row,index){
+                    	if(value == "zc"){
+                    		return "正常";
+                    	}else if(value == "yq"){
+                    		return "逾期";
+                    	}else if(value == "zcjq"){
+                    		return "正常结清";
+                    	}else if(value == "tqjq"){
+                    		return "提前结清";
+                    	}else if(value == "yqjq"){
+                    		return "逾期结清";
+                    	}else {
+                    		return value;
+                    	}
+                    }
                 }
             ]
     });
@@ -76,7 +105,11 @@ function addButton2Event(){
 	    	layer.msg("至少选择一条", {icon: 5});
 	    	return;
 	    }
-	    initTable2(loanId);
+	    var opt = {
+            url: "../loan/repayscheduleAction?loanId="+loanId,
+            silent: false //静默刷新
+        };
+	    $table2.bootstrapTable('refresh', opt);
 	});
 }
 
@@ -87,12 +120,16 @@ function addButton3Event(){
 	    	layer.msg("至少选择一条", {icon: 5});
 	    	return;
 	    }
-	    initTable3(loanId);
+	    var opt = {
+            url: "../loan/repayflowAction?loanId="+loanId,
+            silent: false //静默刷新
+        };
+	    $table3.bootstrapTable('refresh', opt);
 	});
 }
 
 function addButtonEvent_dqhk(){
-	$lookRepayFlow.click(function () {
+	$dqhk.click(function () {
 	    var loanId = getIdSelections();
 	    if(loanId==""){
 	    	layer.msg("至少选择一条", {icon: 5});
@@ -146,7 +183,9 @@ function addButtonEvent_tqjqAll(){
 }
 
 $(function() {
-	initTable();
+	initTable1();
+	initTable2();
+	initTable3();
 	addButton2Event();
 	addButton3Event();
 	

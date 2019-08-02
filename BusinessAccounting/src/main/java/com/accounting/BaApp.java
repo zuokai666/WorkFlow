@@ -19,26 +19,25 @@ public class BaApp {
 	
 	public static void main(String[] args) {
 		DB.printDate();
-		loan();
+//		loan();
 		
-//		while(true){
-//			ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
-//			scheduleService.dayCut();
-////			scheduleService.batchCharge();
-//			repay();
-//			try {
-//				Thread.sleep(1 * 1000);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-		
+		while(true){
+			ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
+			scheduleService.dayCut();
+			scheduleService.batchCharge();
+			try {
+				Thread.sleep(1 * 1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		
-		ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
-		scheduleService.dayCut();
 		
-		repay();
+//		ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
+//		scheduleService.dayCut();
+//		
+//		repay();
 //		
 //		AccountingServiceImpl accountingService = new AccountingServiceImpl();
 //		accountingService.batchCharge();

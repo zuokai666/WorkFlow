@@ -27,6 +27,7 @@ public class UserController {
 	
 	@RequestMapping(value="/login")
 	public ModelAndView login(){
+		request.getSession().removeAttribute("accoundId");
 		return new ModelAndView("user/login");
 	}
 	

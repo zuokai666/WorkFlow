@@ -1,8 +1,8 @@
 var $table3 = $('#table3');
 
-function initTable3(loanId) {
+function initTable3() {
     $table3.bootstrapTable({
-    	url: "../loan/repayflowAction?loanId="+loanId,
+    	url: "../loan/repayflowAction?loanId=0",
     	reinit: false,
     	classes: "table table-hover",
     	pagination: true,
@@ -19,7 +19,18 @@ function initTable3(loanId) {
                 }, {
                     field: 'repayMode',
                     title: '还款类型',
-                    align: 'center'
+                    align: 'center',
+                    formatter:function(value,row,index){
+                    	if(value == "dqhk"){
+                    		return "到期还款";
+                    	}else if(value == "tqjqCur"){
+                    		return "提前结清当期";
+                    	}else if(value == "tqjqAll"){
+                    		return "提前结清全部";
+                    	}else {
+                    		return value;
+                    	}
+                    }
                 }, {
                     field: 'repayDate',
                     title: '支付日',
