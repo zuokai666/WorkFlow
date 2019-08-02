@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.accounting.model.Account;
 import com.accounting.model.Loan;
 import com.accounting.model.RepayFlow;
 import com.accounting.model.RepayPlan;
@@ -95,5 +96,21 @@ public class LoanController {
 				.setParameter("loanId", loanId)
 				.list();
 		return accountIds;
+	}
+	
+	@RequestMapping(value="/accountAction",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public Account accountAction(){
+		Integer accountId = (Integer) request.getSession().getAttribute("accoundId");
+		Session session = DB.getSession();
+		@SuppressWarnings("unchecked")
+		List<Account> accountIds = session
+				.createQuery("from Account where id = :id")
+				.setParameter("id", accountId)
+				.list();
+		if(accountIds.size() == 0){
+			return new Account();
+		}else {
+			return accountIds.get(0);
+		}
 	}
 }

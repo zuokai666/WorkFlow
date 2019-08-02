@@ -10,10 +10,10 @@ import org.slf4j.LoggerFactory;
 import com.accounting.exception.UnClearedLoanException;
 import com.accounting.model.Loan;
 
-public class LoanCheckProcedure {
+public class LoanCheckUnClearProcedure {
 	
 	@SuppressWarnings("unused")
-	private static final Logger log = LoggerFactory.getLogger(LoanCheckProcedure.class);
+	private static final Logger log = LoggerFactory.getLogger(LoanCheckUnClearProcedure.class);
 	
 	/**
 	 * 检查此账户是否有未结清的借款

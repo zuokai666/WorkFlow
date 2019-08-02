@@ -13,10 +13,12 @@ public class Constant {
 	public static final String loanstatus_tqjq = "tqjq";//提前结清
 	public static final String loanstatus_yqjq = "yqjq";//逾期结清
 	
-	public static final String repaymode_zchk = "zchk";//正常还款
-	
 	public static final String repaymethod_debx = "debx";//等额本息
 	public static final String repaymethod_debj = "debj";//等额本金
 	public static final String repaymethod_xxhb = "xxhb";//先息后本
 	public static final String repaymethod_one = "one";//一次性还本付息
+	
+	public static final String repaymode_dqhk = "dqhk";//到期还款
+	public static final String repaymode_tqjqCur = "tqjqCur";//提前结清当期
+	public static final String repaymode_tqjqAll = "tqjqAll";//提前结清全部
 }

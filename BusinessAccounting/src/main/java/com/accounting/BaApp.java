@@ -22,9 +22,7 @@ public class BaApp {
 		while(true){
 			ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
 			scheduleService.dayCut();
-			
-			AccountingServiceImpl accountingService = new AccountingServiceImpl();
-			accountingService.batchCharge();
+			scheduleService.batchCharge();
 			try {
 				Thread.sleep(1 * 1000);
 			} catch (InterruptedException e) {
@@ -57,6 +55,19 @@ public class BaApp {
 			log.info("借款成功");
 		}else {
 			log.info("借款失败");
+		}
+	}
+	
+	public static void repay() {
+		AccountingServiceImpl accountingService = new AccountingServiceImpl();
+		Map<String, Object> map = new HashMap<>();
+		map.put("loanId", 3);
+		map.put("repaymode", Constant.repaymode_dqhk);
+		boolean result = accountingService.repay(map);
+		if(result){
+			log.info("还款成功");
+		}else {
+			log.info("还款失败");
 		}
 	}
 }
