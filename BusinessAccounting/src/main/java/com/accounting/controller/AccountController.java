@@ -37,4 +37,17 @@ public class AccountController {
 				.list();
 		return accountIds;
 	}
+	
+	@RequestMapping(value="/getTime",produces=MediaType.TEXT_PLAIN_VALUE)
+	public String getTime(){
+		Session session = null;
+		try {
+			session = DB.getSession();
+			return DB.getBusinessDate(session);
+		} finally {
+			if(session != null){
+				session.close();
+			}
+		}
+	}
 }

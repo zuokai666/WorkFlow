@@ -15,3 +15,19 @@ function checknum(value) {
         return false;
     }
 }
+
+
+
+function getTime(){
+	$.ajax({
+	   type: "POST",
+	   url: "../account/getTime",
+	   success: function(msg){
+		   $("#getTime").text("当前日期 : " + msg);
+	   }
+	});
+}
+
+$(function() {
+	var int=self.setInterval("getTime()",10000);
+});
