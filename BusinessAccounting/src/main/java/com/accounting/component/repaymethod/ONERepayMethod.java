@@ -21,7 +21,6 @@ public class ONERepayMethod implements RepayMethod {
 		plan.setStartDate(tempDate);
 		tempDate = TM.addMonth(tempDate, loanTerm);
 		plan.setEndDate(tempDate);
-		plan.setPayDate(tempDate);
 		plan.setInterestPrincipal(loanAmount);//计息本金=贷款本金
 		plan.setRepayPrincipal(loanAmount);//贷款本金
 		plan.setRepayInterest(repayInterestBD);

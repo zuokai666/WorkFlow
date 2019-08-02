@@ -68,13 +68,16 @@ public class TQJQCurrentProcedure {
 				.setParameter("id", loan.getAccountId()).list().get(0);
 		for(int i=0;i<repayPlans.size();i++){
 			RepayPlan repayPlan = repayPlans.get(i);
-			BigDecimal repayAmount = repayPlan.getRepayPrincipal().add(repayPlan.getAccrueInterest());//本金+累计计提利息
+			BigDecimal repayInterest = repayPlan.getAccrueInterest();//累计计提利息
+			BigDecimal repayAmount = repayPlan.getRepayPrincipal().add(repayInterest);
 			if(account.getAmount().compareTo(repayAmount) >= 0){
 				log.info("客户银行卡余额[{}]充足，偿还[{}]成功", account.getAmount(), repayAmount);
 				account.setAmount(account.getAmount().subtract(repayAmount));
 				session.persist(account);
 				repayPlan.setFinishDate(bizDate);
 				repayPlan.setRemark("提前结清当期成功");
+				repayPlan.setRepayInterest(repayInterest);
+				repayPlan.setRepayAmount(repayAmount);
 				session.persist(repayPlan);
 				//增加还款流水
 				RepayFlow repayFlow = new RepayFlow();
@@ -82,16 +85,17 @@ public class TQJQCurrentProcedure {
 				repayFlow.setRepayDate(bizDate);
 				repayFlow.setRepayMode(Constant.repaymode_tqjqCur);
 				repayFlow.setPaidPrincipal(repayPlan.getRepayPrincipal());
-				repayFlow.setPaidInterest(repayPlan.getAccrueInterest());
-				repayFlow.setPaidAmount(repayAmount);
+				repayFlow.setPaidInterest(repayPlan.getRepayInterest());
+				repayFlow.setPaidAmount(repayPlan.getRepayAmount());
 				session.persist(repayFlow);
 				//增加借据实还金额等
-				loan.setPaidAmount(loan.getPaidAmount().add(repayAmount));
-				loan.setPaidInterest(loan.getPaidInterest().add(repayPlan.getAccrueInterest()));
-				loan.setPaidPrincipal(loan.getPaidPrincipal().add(repayPlan.getRepayPrincipal()));
+				loan.setPaidAmount(loan.getPaidAmount().add(repayFlow.getPaidAmount()));
+				loan.setPaidInterest(loan.getPaidInterest().add(repayFlow.getPaidInterest()));
+				loan.setPaidPrincipal(loan.getPaidPrincipal().add(repayFlow.getPaidPrincipal()));
 				if(repayPlan.getCurrentTerm() == loan.getTerm()){//结清借据
 					log.info("客户最后一期还款成功，借据提前结清");
 					loan.setFinishDate(bizDate);
+					loan.setEndDate(bizDate);//重置贷款到期日
 					loan.setLoanStatus(Constant.loanstatus_tqjq);
 				}
 				session.persist(loan);

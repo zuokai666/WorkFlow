@@ -25,7 +25,6 @@ public class XXHBRepayMethod implements RepayMethod {
 			plan.setStartDate(tempDate);
 			tempDate = TM.addMonth(tempDate, 1);
 			plan.setEndDate(tempDate);
-			plan.setPayDate(tempDate);
 			plan.setInterestPrincipal(interestPrincipalBD);//计息本金
 			plan.setRepayPrincipal(repayMonthPrincipalBD);
 			plan.setRepayInterest(repayInterestBD);

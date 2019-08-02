@@ -21,7 +21,6 @@ public class DEBJRepayMethod implements RepayMethod {
 			plan.setStartDate(tempDate);
 			tempDate = TM.addMonth(tempDate, 1);
 			plan.setEndDate(tempDate);
-			plan.setPayDate(tempDate);
 			plan.setInterestPrincipal(new BigDecimal(interestPrincipal));//计息本金,每次减去本金
 			plan.setRepayPrincipal(repayMonthPrincipalBD);
 			BigDecimal repayInterestBD = BigDecimal.valueOf(interestPrincipal * monthInterestRate);

@@ -18,6 +18,7 @@
 		
 		<!-- 对象和数据库中表的映射 -->
 		<mapping class="com.accounting.model.Loan"/>
+		<mapping class="com.accounting.model.OriginalRepayPlan"/>
 		<mapping class="com.accounting.model.RepayPlan"/>
 		<mapping class="com.accounting.model.RepayFlow"/>
 		<mapping class="com.accounting.model.SystemConfig"/>

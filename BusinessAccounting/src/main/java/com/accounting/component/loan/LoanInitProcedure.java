@@ -24,6 +24,7 @@ public class LoanInitProcedure {
 		String bizDate = DB.getBusinessDate(session);
 		Loan loan = new Loan();
 		loan.setTerm(loanTerm);
+		loan.setOriginalTerm(loanTerm);
 		int accountId = (int) map.get("accountId");
 		loan.setAccountId(accountId);
 		loan.setLoanPrincipal(loanAmount);
@@ -31,8 +32,8 @@ public class LoanInitProcedure {
 		loan.setLoanDate(bizDate);
 		loan.setHandleDate(bizDate);
 		loan.setLoanStatus(Constant.loanstatus_zc);
-		loan.setStartDate(bizDate);
 		loan.setEndDate(TM.addMonth(bizDate, loanTerm));
+		loan.setOriginalEndDate(loan.getEndDate());
 		loan.setPaidPrincipal(new BigDecimal(0));
 		loan.setPaidInterest(new BigDecimal(0));
 		loan.setPaidAmount(new BigDecimal(0));

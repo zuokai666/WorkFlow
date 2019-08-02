@@ -19,6 +19,8 @@ public class Loan {
 	@Column(nullable=false)
 	private int accountId;//账户
 	@Column(nullable=false)
+	private int originalTerm;//原始贷款总期数
+	@Column(nullable=false)
 	private int term;//贷款总期数
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal loanPrincipal;//贷款本金
@@ -27,7 +29,7 @@ public class Loan {
 	@Column(nullable=false,length=10)
 	private String loanDate;//放款日期
 	@Column(nullable=false,length=10)
-	private String startDate;//开始日期
+	private String originalEndDate;//原始截止日期
 	@Column(nullable=false,length=10)
 	private String endDate;//截止日期
 	@Column(nullable=false,precision=24,scale=2)
@@ -45,6 +47,18 @@ public class Loan {
 	@Column(nullable=false,length=10)
 	private String loanStatus;//借据状态
 	
+	public int getOriginalTerm() {
+		return originalTerm;
+	}
+	public void setOriginalTerm(int originalTerm) {
+		this.originalTerm = originalTerm;
+	}
+	public String getOriginalEndDate() {
+		return originalEndDate;
+	}
+	public void setOriginalEndDate(String originalEndDate) {
+		this.originalEndDate = originalEndDate;
+	}
 	public String getLoanStatus() {
 		return loanStatus;
 	}
@@ -92,12 +106,6 @@ public class Loan {
 	}
 	public void setLoanDate(String loanDate) {
 		this.loanDate = loanDate;
-	}
-	public String getStartDate() {
-		return startDate;
-	}
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
 	}
 	public String getEndDate() {
 		return endDate;

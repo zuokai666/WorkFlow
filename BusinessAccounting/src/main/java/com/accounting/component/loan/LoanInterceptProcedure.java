@@ -22,6 +22,7 @@ public class LoanInterceptProcedure {
 		Loan initLoan = (Loan) map.get("initLoan");
 		if(initLoan.getRepayMethod().equals(Constant.repaymethod_one)){
 			initLoan.setTerm(1);
+			initLoan.setOriginalTerm(1);
 			session.persist(initLoan);
 			log.info("一次性还本付息改变期数为1");
 		}

@@ -12,13 +12,13 @@ import javax.persistence.Table;
 import com.accounting.component.repaymethod.RepaySchedule;
 
 /**
- * 还款计划表
+ * 原始还款计划表
  * 
  * @author King
  */
 @Entity
-@Table(name="RepayPlan")
-public class RepayPlan implements RepaySchedule{
+@Table(name="OriginalRepayPlan")
+public class OriginalRepayPlan implements RepaySchedule{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -29,7 +29,6 @@ public class RepayPlan implements RepaySchedule{
 	private String startDate;//区间开始日期
 	@Column(length=10)
 	private String endDate;//区间截止日期
-//	private String graceDate;//宽限日
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal repayPrincipal;//应还本金
 	@Column(nullable=false,precision=24,scale=2)
@@ -38,29 +37,7 @@ public class RepayPlan implements RepaySchedule{
 	private BigDecimal interestPrincipal;//计息本金
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal repayAmount;//应还金额-总的意思
-//	private int planStatus;//期供状态
-//	private BigDecimal accumulativeInterest;//累计利息
-	@Column(nullable=false,precision=24,scale=2)
-	private BigDecimal accrueInterest;//计提利息
-//	@Column(nullable=false,precision=24,scale=2)
-//	private BigDecimal overdueInterest;//逾期利息
-	@Column(length=10)
-	private String finishDate;//当期结清日期
-	@Column(length=255)
-	private String remark;//备注
-	
-	public String getFinishDate() {
-		return finishDate;
-	}
-	public void setFinishDate(String finishDate) {
-		this.finishDate = finishDate;
-	}
-	public String getRemark() {
-		return remark;
-	}
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+
 	public int getId() {
 		return id;
 	}
@@ -114,11 +91,5 @@ public class RepayPlan implements RepaySchedule{
 	}
 	public void setRepayAmount(BigDecimal repayAmount) {
 		this.repayAmount = repayAmount;
-	}
-	public BigDecimal getAccrueInterest() {
-		return accrueInterest;
-	}
-	public void setAccrueInterest(BigDecimal accrueInterest) {
-		this.accrueInterest = accrueInterest;
 	}
 }

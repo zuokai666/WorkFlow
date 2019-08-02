@@ -7,7 +7,6 @@ public interface RepaySchedule {
 	void setCurrentTerm(int currentTerm);
 	void setStartDate(String startDate);
 	void setEndDate(String endDate);
-	void setPayDate(String payDate);
 	void setInterestPrincipal(BigDecimal interestPrincipal);
 	void setRepayPrincipal(BigDecimal repayPrincipal);
 	void setRepayInterest(BigDecimal repayInterest);
