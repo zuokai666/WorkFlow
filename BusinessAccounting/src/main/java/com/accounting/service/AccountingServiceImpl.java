@@ -10,6 +10,7 @@ import com.accounting.bean.BizResponse;
 import com.accounting.component.loan.LoanCheckUnClearProcedure;
 import com.accounting.component.loan.LoanInitProcedure;
 import com.accounting.component.loan.LoanInterceptProcedure;
+import com.accounting.component.loan.NewAccountProcedure;
 import com.accounting.component.loan.OriginalRepayPlanInitProcedure;
 import com.accounting.component.loan.RepayPlanInitProcedure;
 import com.accounting.component.normalrepay.DayEndWaitProcedure;
@@ -29,6 +30,8 @@ public class AccountingServiceImpl {
 			session.getTransaction().begin();
 //			TableClearProcedure tableClearProcedure = new TableClearProcedure();
 //			tableClearProcedure.run(session, map);
+			NewAccountProcedure newAccountProcedure = new NewAccountProcedure();
+			newAccountProcedure.run(session, map);
 			LoanCheckUnClearProcedure loanCheckProcedure = new LoanCheckUnClearProcedure();
 			loanCheckProcedure.run(session, map);
 			LoanInitProcedure loanInitProcedure = new LoanInitProcedure();

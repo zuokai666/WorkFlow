@@ -63,8 +63,7 @@ public class TQJQAllProcedure {
 		.createQuery("from RepayPlan r where r.loanId = :loanId and r.finishDate is null order by currentTerm")//找到未结清的所有还款计划
 		.setParameter("loanId", loan.getId())
 		.list();
-		Account account = (Account) session.createQuery("from Account where id = :id")
-				.setParameter("id", loan.getAccountId()).list().get(0);
+		Account account = (Account) session.get(Account.class, loan.getAccountId(), LockMode.PESSIMISTIC_WRITE);
 		//计算利息+本金
 		BigDecimal interest = new BigDecimal(0);
 		BigDecimal principal = new BigDecimal(0);

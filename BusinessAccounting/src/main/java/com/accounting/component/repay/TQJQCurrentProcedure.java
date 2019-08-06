@@ -64,8 +64,7 @@ public class TQJQCurrentProcedure {
 		.setParameter("loanId", loan.getId())
 		.setParameter("ddate", bizDate)
 		.list();
-		Account account = (Account) session.createQuery("from Account where id = :id")
-				.setParameter("id", loan.getAccountId()).list().get(0);
+		Account account = (Account) session.get(Account.class, loan.getAccountId(), LockMode.PESSIMISTIC_WRITE);
 		for(int i=0;i<repayPlans.size();i++){
 			RepayPlan repayPlan = repayPlans.get(i);
 			BigDecimal repayInterest = repayPlan.getAccrueInterest();//累计计提利息

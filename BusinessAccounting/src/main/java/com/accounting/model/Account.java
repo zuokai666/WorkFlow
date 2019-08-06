@@ -24,7 +24,7 @@ public class Account {
 	private String password;
 	@Column(nullable=false, length=18)
 	private String idNumber;
-	@Column(nullable=false, length=6)
+	@Column(nullable=false, length=19)
 	private String bankCardNo;
 	@Column(nullable=false, length=11)
 	private String bankPhone;
