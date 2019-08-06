@@ -38,6 +38,8 @@ public class LoanInitProcedure {
 		loan.setPaidInterest(new BigDecimal(0));
 		loan.setPaidAmount(new BigDecimal(0));
 		loan.setDayInterestRate(dayInterestRate);
+		loan.setPaidInterestPenalty(new BigDecimal(0));
+		loan.setPaidPrincipalPenalty(new BigDecimal(0));
 		session.persist(loan);
 		map.put("initLoan", loan);
 		log.info("借据表数据插入成功");

@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.accounting.model.Loan;
 import com.accounting.util.Constant;
 
 /**
@@ -19,11 +18,9 @@ public class LoanInterceptProcedure {
 	private static final Logger log = LoggerFactory.getLogger(LoanInterceptProcedure.class);
 	
 	public void run(Session session,Map<String, Object> map){
-		Loan initLoan = (Loan) map.get("initLoan");
-		if(initLoan.getRepayMethod().equals(Constant.repaymethod_one)){
-			initLoan.setTerm(1);
-			initLoan.setOriginalTerm(1);
-			session.persist(initLoan);
+		String repaymethodName = (String) map.get("repaymethod");
+		if(repaymethodName.equals(Constant.repaymethod_one)){
+			map.put("loanTerm", 1);
 			log.info("一次性还本付息改变期数为1");
 		}
 	}

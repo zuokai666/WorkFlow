@@ -32,10 +32,16 @@ public class Loan {
 	private String originalEndDate;//原始截止日期
 	@Column(nullable=false,length=10)
 	private String endDate;//截止日期
+	private int overdueDays;//逾期天数
+	private int maxOverdueDays;//最高逾期天数
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal paidPrincipal;//已还本金
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal paidInterest;//已还利息
+	@Column(nullable=false,precision=24,scale=2)
+	private BigDecimal paidPrincipalPenalty;//已还本金罚息
+	@Column(nullable=false,precision=24,scale=2)
+	private BigDecimal paidInterestPenalty;//已还利息罚息
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal paidAmount;//已还金额
 	@Column(length=10)
@@ -47,6 +53,30 @@ public class Loan {
 	@Column(nullable=false,length=10)
 	private String loanStatus;//借据状态
 	
+	public int getOverdueDays() {
+		return overdueDays;
+	}
+	public void setOverdueDays(int overdueDays) {
+		this.overdueDays = overdueDays;
+	}
+	public int getMaxOverdueDays() {
+		return maxOverdueDays;
+	}
+	public void setMaxOverdueDays(int maxOverdueDays) {
+		this.maxOverdueDays = maxOverdueDays;
+	}
+	public BigDecimal getPaidPrincipalPenalty() {
+		return paidPrincipalPenalty;
+	}
+	public void setPaidPrincipalPenalty(BigDecimal paidPrincipalPenalty) {
+		this.paidPrincipalPenalty = paidPrincipalPenalty;
+	}
+	public BigDecimal getPaidInterestPenalty() {
+		return paidInterestPenalty;
+	}
+	public void setPaidInterestPenalty(BigDecimal paidInterestPenalty) {
+		this.paidInterestPenalty = paidInterestPenalty;
+	}
 	public int getOriginalTerm() {
 		return originalTerm;
 	}

@@ -14,6 +14,8 @@ import com.accounting.util.TM;
 
 /**
  * 计提利息计算
+ * 本金分为，结转本金，未结转本金
+ * 结转本金包括已还和逾期
  */
 public class AccrueInterestProcedure {
 	
@@ -33,9 +35,9 @@ public class AccrueInterestProcedure {
 			if(repayPlan.getEndDate().equals(handleDate)){//还款日，修正计提利息
 				repayPlan.setAccrueInterest(repayPlan.getRepayInterest());
 			}else {
-				double lastAccrueInterest = repayPlan.getAccrueInterest().doubleValue();
-				double dayReapyInterest = repayPlan.getRepayInterest().doubleValue() / TM.intervalDate(repayPlan.getStartDate(), repayPlan.getEndDate());
-				repayPlan.setAccrueInterest(new BigDecimal(lastAccrueInterest + dayReapyInterest));
+				int intervalDays = TM.intervalDate(repayPlan.getStartDate(), repayPlan.getEndDate());
+				BigDecimal intervalDaysBD = new BigDecimal(intervalDays);
+				repayPlan.setAccrueInterest(repayPlan.getAccrueInterest().add(repayPlan.getRepayInterest().divide(intervalDaysBD, 2, BigDecimal.ROUND_HALF_DOWN)));
 			}
 			session.persist(repayPlan);
 		}

@@ -13,6 +13,7 @@ import com.accounting.component.repaymethod.RepayMethod;
 import com.accounting.component.repaymethod.RepayMethodFactory;
 import com.accounting.component.repaymethod.RepaySchedule;
 import com.accounting.exception.UnSupportRepayMethodException;
+import com.accounting.model.Coupon;
 import com.accounting.model.Loan;
 import com.accounting.model.RepayPlan;
 import com.accounting.util.DB;
@@ -46,8 +47,25 @@ public class RepayPlanInitProcedure {
 			throw new UnSupportRepayMethodException("不支持的还款方式:" + repaymethodName);
 		}
 		repayMethod.fire(repaySchedules, bizDate, dayInterestRate, loanTerm, loanAmount);
+		Coupon coupon = (Coupon) map.get("coupon");
+		int waiveTerm = coupon==null ? 0 : coupon.getN();
 		for(int i=0;i<repaySchedules.size();i++){
 			RepayPlan plan = (RepayPlan) repaySchedules.get(i);
+			plan.setPaidInterest(new BigDecimal(0));
+			plan.setPaidPrincipal(new BigDecimal(0));
+			plan.setPaidPrincipalPenalty(new BigDecimal(0));
+			plan.setPaidInterestPenalty(new BigDecimal(0));
+			plan.setRepayInterestPenalty(new BigDecimal(0));
+			plan.setRepayPrincipalPenalty(new BigDecimal(0));
+			if(waiveTerm == 0){
+				plan.setWaiveInterest(new BigDecimal(0));
+			}else {
+				plan.setWaiveInterest(plan.getRepayInterest());
+				waiveTerm--;
+			}
+			plan.setWaiveInterestPenalty(new BigDecimal(0));
+			plan.setWaivePrincipal(new BigDecimal(0));
+			plan.setWaivePrincipalPenalty(new BigDecimal(0));
 			session.persist(plan);
 		}
 		log.info("还款计划表数据插入成功");

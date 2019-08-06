@@ -21,24 +21,24 @@ public class BaApp {
 		DB.printDate();
 //		loan();
 		
-//		while(true){
-//			ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
-//			scheduleService.dayCut();
-//			scheduleService.batchCharge();
-//			try {
-//				Thread.sleep(1 * 1000);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		while(true){
+			ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
+			scheduleService.dayCut();
+			scheduleService.batchCharge();
+			try {
+				Thread.sleep(1 * 1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		
 		
-		ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
-		scheduleService.dayCut();
-//		
+//		ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
+//		scheduleService.dayCut();
+		
 //		repay();
-//		
+		
 //		AccountingServiceImpl accountingService = new AccountingServiceImpl();
 //		accountingService.batchCharge();
 	}
@@ -49,7 +49,8 @@ public class BaApp {
 		map.put("loanAmount", new BigDecimal(1_0000));
 		map.put("loanTerm", 3);
 		map.put("dayInterestRate", new BigDecimal(0.05));
-//		map.put("accountId", 1);
+		map.put("couponId", 1);
+		map.put("accountId", 1);
 		map.put("repaymethod", Constant.repaymethod_debx);
 //		map.put("repaymethod", Constant.repaymethod_debj);
 //		map.put("repaymethod", Constant.repaymethod_xxhb);

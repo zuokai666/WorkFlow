@@ -44,7 +44,7 @@ public class EodProcedure {
 				final int _i = i;
 				executor.execute(() -> handleOneLoan(map, businessDate, loanIds.get(_i), latch));
 			}
-			latch.await(600, TimeUnit.MINUTES);//最长等待60分钟
+			latch.await(60, TimeUnit.MINUTES);//最长等待60分钟
 			stopWatch.stop();
 			log.info(stopWatch.prettyPrint());
 		} catch (Exception e) {
@@ -67,6 +67,8 @@ public class EodProcedure {
 				loan.setHandleDate(TM.addDay(loan.getHandleDate(), 1));//设置为下一日
 				AccrueInterestProcedure accrueInterestProcedure = new AccrueInterestProcedure();
 				accrueInterestProcedure.run(session, loan, map);
+				OverdueProcedure overdueProcedure = new OverdueProcedure();
+				overdueProcedure.run(session, loan, map);
 			}
 			session.persist(loan);
 			session.getTransaction().commit();//释放借据

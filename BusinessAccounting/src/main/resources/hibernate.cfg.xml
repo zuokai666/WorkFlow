@@ -24,5 +24,6 @@
 		<mapping class="com.accounting.model.SystemConfig"/>
 		<mapping class="com.accounting.model.Account"/>
 		<mapping class="com.accounting.model.AccountDealFlow"/>
+		<mapping class="com.accounting.model.Coupon"/>
 	</session-factory>
 </hibernate-configuration>

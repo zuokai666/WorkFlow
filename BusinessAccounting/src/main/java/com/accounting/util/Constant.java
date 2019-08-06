@@ -21,4 +21,7 @@ public class Constant {
 	public static final String repaymode_dqhk = "dqhk";//到期还款
 	public static final String repaymode_tqjqCur = "tqjqCur";//提前结清当期
 	public static final String repaymode_tqjqAll = "tqjqAll";//提前结清全部
+	
+	public static final String couponuse_unuse = "unuse";//未使用
+	public static final String couponuse_used = "used";//已使用
 }

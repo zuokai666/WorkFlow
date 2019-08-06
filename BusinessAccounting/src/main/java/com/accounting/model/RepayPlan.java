@@ -29,26 +29,108 @@ public class RepayPlan implements RepaySchedule{
 	private String startDate;//区间开始日期
 	@Column(length=10)
 	private String endDate;//区间截止日期
-//	private String graceDate;//宽限日
+	
+	//-------------------本金-------------------------
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal repayPrincipal;//应还本金
 	@Column(nullable=false,precision=24,scale=2)
-	private BigDecimal repayInterest;//应还利息
+	private BigDecimal paidPrincipal;//实还本金
+	@Column(nullable=false,precision=24,scale=2)
+	private BigDecimal waivePrincipal;//减免本金
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal interestPrincipal;//计息本金
+	
+	//-------------------利息--------------------------
 	@Column(nullable=false,precision=24,scale=2)
-	private BigDecimal repayAmount;//应还金额-总的意思
-//	private int planStatus;//期供状态
-//	private BigDecimal accumulativeInterest;//累计利息
+	private BigDecimal repayInterest;//应还利息
+	@Column(nullable=false,precision=24,scale=2)
+	private BigDecimal paidInterest;//实还利息
+	@Column(nullable=false,precision=24,scale=2)
+	private BigDecimal waiveInterest;//减免利息
+	
+	//-------------------本金罚息--------------------------
+	@Column(nullable=false,precision=24,scale=2)
+	private BigDecimal repayPrincipalPenalty;//应还本金罚息
+	@Column(nullable=false,precision=24,scale=2)
+	private BigDecimal paidPrincipalPenalty;//实还本金罚息
+	@Column(nullable=false,precision=24,scale=2)
+	private BigDecimal waivePrincipalPenalty;//减免本金罚息
+	
+	//-------------------利息罚息--------------------------
+	@Column(nullable=false,precision=24,scale=2)
+	private BigDecimal repayInterestPenalty;//应还利息罚息
+	@Column(nullable=false,precision=24,scale=2)
+	private BigDecimal paidInterestPenalty;//实还利息罚息
+	@Column(nullable=false,precision=24,scale=2)
+	private BigDecimal waiveInterestPenalty;//减免利息罚息
+	
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal accrueInterest;//计提利息
-//	@Column(nullable=false,precision=24,scale=2)
-//	private BigDecimal overdueInterest;//逾期利息
 	@Column(length=10)
 	private String finishDate;//当期结清日期
 	@Column(length=255)
 	private String remark;//备注
 	
+	public BigDecimal getPaidPrincipal() {
+		return paidPrincipal;
+	}
+	public void setPaidPrincipal(BigDecimal paidPrincipal) {
+		this.paidPrincipal = paidPrincipal;
+	}
+	public BigDecimal getWaivePrincipal() {
+		return waivePrincipal;
+	}
+	public void setWaivePrincipal(BigDecimal waivePrincipal) {
+		this.waivePrincipal = waivePrincipal;
+	}
+	public BigDecimal getPaidInterest() {
+		return paidInterest;
+	}
+	public void setPaidInterest(BigDecimal paidInterest) {
+		this.paidInterest = paidInterest;
+	}
+	public BigDecimal getWaiveInterest() {
+		return waiveInterest;
+	}
+	public void setWaiveInterest(BigDecimal waiveInterest) {
+		this.waiveInterest = waiveInterest;
+	}
+	public BigDecimal getRepayPrincipalPenalty() {
+		return repayPrincipalPenalty;
+	}
+	public void setRepayPrincipalPenalty(BigDecimal repayPrincipalPenalty) {
+		this.repayPrincipalPenalty = repayPrincipalPenalty;
+	}
+	public BigDecimal getPaidPrincipalPenalty() {
+		return paidPrincipalPenalty;
+	}
+	public void setPaidPrincipalPenalty(BigDecimal paidPrincipalPenalty) {
+		this.paidPrincipalPenalty = paidPrincipalPenalty;
+	}
+	public BigDecimal getWaivePrincipalPenalty() {
+		return waivePrincipalPenalty;
+	}
+	public void setWaivePrincipalPenalty(BigDecimal waivePrincipalPenalty) {
+		this.waivePrincipalPenalty = waivePrincipalPenalty;
+	}
+	public BigDecimal getRepayInterestPenalty() {
+		return repayInterestPenalty;
+	}
+	public void setRepayInterestPenalty(BigDecimal repayInterestPenalty) {
+		this.repayInterestPenalty = repayInterestPenalty;
+	}
+	public BigDecimal getPaidInterestPenalty() {
+		return paidInterestPenalty;
+	}
+	public void setPaidInterestPenalty(BigDecimal paidInterestPenalty) {
+		this.paidInterestPenalty = paidInterestPenalty;
+	}
+	public BigDecimal getWaiveInterestPenalty() {
+		return waiveInterestPenalty;
+	}
+	public void setWaiveInterestPenalty(BigDecimal waiveInterestPenalty) {
+		this.waiveInterestPenalty = waiveInterestPenalty;
+	}
 	public String getFinishDate() {
 		return finishDate;
 	}
@@ -109,16 +191,14 @@ public class RepayPlan implements RepaySchedule{
 	public void setInterestPrincipal(BigDecimal interestPrincipal) {
 		this.interestPrincipal = interestPrincipal;
 	}
-	public BigDecimal getRepayAmount() {
-		return repayAmount;
-	}
-	public void setRepayAmount(BigDecimal repayAmount) {
-		this.repayAmount = repayAmount;
-	}
 	public BigDecimal getAccrueInterest() {
 		return accrueInterest;
 	}
 	public void setAccrueInterest(BigDecimal accrueInterest) {
 		this.accrueInterest = accrueInterest;
+	}
+	@Override
+	public void setRepayAmount(BigDecimal repayAmount) {
+		//不做设置
 	}
 }
