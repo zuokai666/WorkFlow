@@ -15,7 +15,6 @@ import com.accounting.component.repaymethod.RepaySchedule;
 import com.accounting.exception.UnSupportRepayMethodException;
 import com.accounting.model.Loan;
 import com.accounting.model.OriginalRepayPlan;
-import com.accounting.util.DB;
 
 /**
  * 
@@ -32,7 +31,7 @@ public class OriginalRepayPlanInitProcedure {
 		BigDecimal loanAmount = (BigDecimal) map.get("loanAmount");
 		String repaymethodName = (String) map.get("repaymethod");
 		Loan initLoan = (Loan) map.get("initLoan");
-		String bizDate = DB.getBusinessDate(session);
+		String bizDate = (String) map.get("businessDate");
 		
 		List<RepaySchedule> repaySchedules = new ArrayList<>();
 		for(int i=0;i<loanTerm;i++){

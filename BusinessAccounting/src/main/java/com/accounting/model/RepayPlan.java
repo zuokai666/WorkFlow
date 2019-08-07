@@ -34,8 +34,6 @@ public class RepayPlan implements RepaySchedule{
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal repayPrincipal;//应还本金
 	@Column(nullable=false,precision=24,scale=2)
-	private BigDecimal paidPrincipal;//实还本金
-	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal waivePrincipal;//减免本金
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal interestPrincipal;//计息本金
@@ -44,23 +42,17 @@ public class RepayPlan implements RepaySchedule{
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal repayInterest;//应还利息
 	@Column(nullable=false,precision=24,scale=2)
-	private BigDecimal paidInterest;//实还利息
-	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal waiveInterest;//减免利息
 	
 	//-------------------本金罚息--------------------------
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal repayPrincipalPenalty;//应还本金罚息
 	@Column(nullable=false,precision=24,scale=2)
-	private BigDecimal paidPrincipalPenalty;//实还本金罚息
-	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal waivePrincipalPenalty;//减免本金罚息
 	
 	//-------------------利息罚息--------------------------
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal repayInterestPenalty;//应还利息罚息
-	@Column(nullable=false,precision=24,scale=2)
-	private BigDecimal paidInterestPenalty;//实还利息罚息
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal waiveInterestPenalty;//减免利息罚息
 	
@@ -71,23 +63,11 @@ public class RepayPlan implements RepaySchedule{
 	@Column(length=255)
 	private String remark;//备注
 	
-	public BigDecimal getPaidPrincipal() {
-		return paidPrincipal;
-	}
-	public void setPaidPrincipal(BigDecimal paidPrincipal) {
-		this.paidPrincipal = paidPrincipal;
-	}
 	public BigDecimal getWaivePrincipal() {
 		return waivePrincipal;
 	}
 	public void setWaivePrincipal(BigDecimal waivePrincipal) {
 		this.waivePrincipal = waivePrincipal;
-	}
-	public BigDecimal getPaidInterest() {
-		return paidInterest;
-	}
-	public void setPaidInterest(BigDecimal paidInterest) {
-		this.paidInterest = paidInterest;
 	}
 	public BigDecimal getWaiveInterest() {
 		return waiveInterest;
@@ -101,12 +81,6 @@ public class RepayPlan implements RepaySchedule{
 	public void setRepayPrincipalPenalty(BigDecimal repayPrincipalPenalty) {
 		this.repayPrincipalPenalty = repayPrincipalPenalty;
 	}
-	public BigDecimal getPaidPrincipalPenalty() {
-		return paidPrincipalPenalty;
-	}
-	public void setPaidPrincipalPenalty(BigDecimal paidPrincipalPenalty) {
-		this.paidPrincipalPenalty = paidPrincipalPenalty;
-	}
 	public BigDecimal getWaivePrincipalPenalty() {
 		return waivePrincipalPenalty;
 	}
@@ -118,12 +92,6 @@ public class RepayPlan implements RepaySchedule{
 	}
 	public void setRepayInterestPenalty(BigDecimal repayInterestPenalty) {
 		this.repayInterestPenalty = repayInterestPenalty;
-	}
-	public BigDecimal getPaidInterestPenalty() {
-		return paidInterestPenalty;
-	}
-	public void setPaidInterestPenalty(BigDecimal paidInterestPenalty) {
-		this.paidInterestPenalty = paidInterestPenalty;
 	}
 	public BigDecimal getWaiveInterestPenalty() {
 		return waiveInterestPenalty;

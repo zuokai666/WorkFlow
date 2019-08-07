@@ -24,4 +24,7 @@ public class Constant {
 	
 	public static final String couponuse_unuse = "unuse";//未使用
 	public static final String couponuse_used = "used";//已使用
+	
+	public static final String accounttype_person = "person";//个人账户
+	public static final String accounttype_company = "company";//公司账户
 }

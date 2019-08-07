@@ -1,6 +1,5 @@
 package com.accounting.util;
 
-import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -32,17 +31,12 @@ public class DB {
 	}
 	
 	public static String getBusinessDate(Session session){
-		SystemConfig config = session.get(SystemConfig.class, 1, LockMode.PESSIMISTIC_READ);
+		SystemConfig config = session.get(SystemConfig.class, 1);
 		return config.getBusinessDate();
 	}
 	
-	public static SystemConfig getSystemConfig(Session session){
-		SystemConfig config = session.get(SystemConfig.class, 1, LockMode.PESSIMISTIC_WRITE);
-		return config;
-	}
-	
 	public static String getBatchDate(Session session){
-		SystemConfig config = session.get(SystemConfig.class, 1, LockMode.PESSIMISTIC_READ);
+		SystemConfig config = session.get(SystemConfig.class, 1);
 		return config.getBatchDate();
 	}
 }

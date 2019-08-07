@@ -16,7 +16,6 @@ import com.accounting.exception.UnSupportRepayMethodException;
 import com.accounting.model.Coupon;
 import com.accounting.model.Loan;
 import com.accounting.model.RepayPlan;
-import com.accounting.util.DB;
 
 /**
  * 
@@ -33,7 +32,7 @@ public class RepayPlanInitProcedure {
 		BigDecimal loanAmount = (BigDecimal) map.get("loanAmount");
 		String repaymethodName = (String) map.get("repaymethod");
 		Loan initLoan = (Loan) map.get("initLoan");
-		String bizDate = DB.getBusinessDate(session);
+		String bizDate = (String) map.get("businessDate");
 		
 		List<RepaySchedule> repaySchedules = new ArrayList<>();
 		for(int i=0;i<loanTerm;i++){
@@ -51,10 +50,6 @@ public class RepayPlanInitProcedure {
 		int waiveTerm = coupon==null ? 0 : coupon.getN();
 		for(int i=0;i<repaySchedules.size();i++){
 			RepayPlan plan = (RepayPlan) repaySchedules.get(i);
-			plan.setPaidInterest(new BigDecimal(0));
-			plan.setPaidPrincipal(new BigDecimal(0));
-			plan.setPaidPrincipalPenalty(new BigDecimal(0));
-			plan.setPaidInterestPenalty(new BigDecimal(0));
 			plan.setRepayInterestPenalty(new BigDecimal(0));
 			plan.setRepayPrincipalPenalty(new BigDecimal(0));
 			if(waiveTerm == 0){

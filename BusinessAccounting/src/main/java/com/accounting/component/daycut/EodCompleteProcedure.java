@@ -23,13 +23,21 @@ public class EodCompleteProcedure {
 	
 	public void run(Map<String, Object> map) throws Exception{
 		Session session = DB.getSession();
-		session.beginTransaction();
-		SystemConfig config = session.get(SystemConfig.class, 1, LockMode.PESSIMISTIC_WRITE);
-		config.setBatchDate(TM.addDay(config.getBatchDate(), 1));
-		config.setBatchFlag(Constant.batchflag_day);
-		session.persist(config);
-		session.getTransaction().commit();
-		session.close();
-		log.info("日终批完成,当前业务日期:[{}],批量日期:[{}],状态:[{}]", config.getBusinessDate(), config.getBatchDate(), config.getBatchFlag());
+		try {
+			session.beginTransaction();
+			SystemConfig config = session.get(SystemConfig.class, 1, LockMode.PESSIMISTIC_WRITE);
+			config.setBatchDate(TM.addDay(config.getBatchDate(), 1));
+			config.setBatchFlag(Constant.batchflag_day);
+			session.persist(config);
+			session.getTransaction().commit();
+			session.close();
+			log.info("日终批完成,当前业务日期:[{}],批量日期:[{}],状态:[{}]", config.getBusinessDate(), config.getBatchDate(), config.getBatchFlag());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(session != null){
+				session.close();
+			}
+		}
 	}
 }

@@ -44,7 +44,7 @@ public class EodProcedure {
 				final int _i = i;
 				executor.execute(() -> handleOneLoan(map, businessDate, loanIds.get(_i), latch));
 			}
-			latch.await(60, TimeUnit.MINUTES);//最长等待60分钟
+			latch.await(90, TimeUnit.MINUTES);//最长等待90分钟
 			stopWatch.stop();
 			log.info(stopWatch.prettyPrint());
 		} catch (Exception e) {

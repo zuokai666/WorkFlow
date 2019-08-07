@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import com.accounting.exception.IllegalCouponException;
 import com.accounting.model.Coupon;
 import com.accounting.util.Constant;
-import com.accounting.util.DB;
 
 public class CouponCheckProcedure {
 	
@@ -18,15 +17,15 @@ public class CouponCheckProcedure {
 	
 	public void run(Session session,Map<String, Object> map){
 		int accountId = (int) map.get("accountId");
-		String bizDate = DB.getBusinessDate(session);
+		String bizDate = (String) map.get("businessDate");
 		if(map.containsKey("couponId")){
 			int couponId = (int) map.remove("couponId");//防止后面以此判断有优惠券
 			Coupon coupon = session.get(Coupon.class, couponId, LockMode.PESSIMISTIC_WRITE);
 			if(coupon != null && coupon.getAccountId() == accountId){
 				if(!coupon.getUseStatus().equals(Constant.couponuse_unuse)){
-					log.info("优惠券[{}]已使用", couponId);
+					log.info("优惠券[{}]已使用,不可再次使用", couponId);
 				}else if(coupon.getEndDate().compareTo(bizDate) < 0){
-					log.info("优惠券[{}]已失效", couponId);
+					log.info("优惠券[{}]已失效,不可再次使用", couponId);
 				}else {
 					coupon.setUseStatus(Constant.couponuse_used);
 					coupon.setUseDate(bizDate);

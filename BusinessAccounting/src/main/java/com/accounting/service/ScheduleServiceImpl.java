@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.accounting.component.daycut.ChangeDateProcedure;
 import com.accounting.component.daycut.EodProcedure;
 import com.accounting.component.normalrepay.BatchChargeProcedure;
+import com.accounting.component.normalrepay.CouponAccountSetProcedure;
 import com.accounting.component.normalrepay.DayEndWaitProcedure;
 import com.accounting.component.daycut.EodCompleteProcedure;
 
@@ -46,6 +47,8 @@ public class ScheduleServiceImpl {
 			Map<String, Object> map = new HashMap<>();
 			DayEndWaitProcedure dayEndWaitProcedure = new DayEndWaitProcedure();
 			dayEndWaitProcedure.run(map);
+			CouponAccountSetProcedure couponAccountSetProcedure = new CouponAccountSetProcedure();
+			couponAccountSetProcedure.run(map);
 			BatchChargeProcedure batchChargeProcedure = new BatchChargeProcedure();
 			batchChargeProcedure.run(map);
 		} catch (Exception e) {

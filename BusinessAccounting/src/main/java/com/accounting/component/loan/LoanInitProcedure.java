@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import com.accounting.model.Loan;
 import com.accounting.util.Constant;
-import com.accounting.util.DB;
 import com.accounting.util.TM;
 
 public class LoanInitProcedure {
@@ -21,7 +20,7 @@ public class LoanInitProcedure {
 		Integer loanTerm = (Integer) map.get("loanTerm");
 		BigDecimal loanAmount = (BigDecimal) map.get("loanAmount");
 		String repaymethodName = (String) map.get("repaymethod");
-		String bizDate = DB.getBusinessDate(session);
+		String bizDate = (String) map.get("businessDate");
 		Loan loan = new Loan();
 		loan.setTerm(loanTerm);
 		loan.setOriginalTerm(loanTerm);

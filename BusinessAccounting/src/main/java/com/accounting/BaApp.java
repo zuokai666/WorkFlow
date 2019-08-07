@@ -50,7 +50,7 @@ public class BaApp {
 		map.put("loanTerm", 3);
 		map.put("dayInterestRate", new BigDecimal(0.05));
 		map.put("couponId", 1);
-		map.put("accountId", 1);
+		map.put("accountId", 2);
 		map.put("repaymethod", Constant.repaymethod_debx);
 //		map.put("repaymethod", Constant.repaymethod_debj);
 //		map.put("repaymethod", Constant.repaymethod_xxhb);

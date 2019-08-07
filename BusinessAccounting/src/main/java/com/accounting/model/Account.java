@@ -30,7 +30,15 @@ public class Account {
 	private String bankPhone;
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal amount;
+	@Column(nullable=false, length=10)
+	private String type;
 	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getUsername() {
 		return username;
 	}

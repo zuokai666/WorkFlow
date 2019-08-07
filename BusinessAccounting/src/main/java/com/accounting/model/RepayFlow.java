@@ -32,7 +32,23 @@ public class RepayFlow {
 	private BigDecimal paidPrincipal;//实还本金
 	@Column(nullable=false,precision=24,scale=2)
 	private BigDecimal paidInterest;//实还利息
+	@Column(nullable=false,precision=24,scale=2)
+	private BigDecimal paidPrincipalPenalty;//实还本金罚息
+	@Column(nullable=false,precision=24,scale=2)
+	private BigDecimal paidInterestPenalty;//实还利息罚息
 	
+	public BigDecimal getPaidPrincipalPenalty() {
+		return paidPrincipalPenalty;
+	}
+	public void setPaidPrincipalPenalty(BigDecimal paidPrincipalPenalty) {
+		this.paidPrincipalPenalty = paidPrincipalPenalty;
+	}
+	public BigDecimal getPaidInterestPenalty() {
+		return paidInterestPenalty;
+	}
+	public void setPaidInterestPenalty(BigDecimal paidInterestPenalty) {
+		this.paidInterestPenalty = paidInterestPenalty;
+	}
 	public int getId() {
 		return id;
 	}

@@ -28,6 +28,8 @@ public class AccountingServiceImpl {
 		try {
 			session = DB.getSession();
 			session.getTransaction().begin();
+			DayEndWaitProcedure dayEndWaitProcedure = new DayEndWaitProcedure();
+			dayEndWaitProcedure.run(map);
 //			TableClearProcedure tableClearProcedure = new TableClearProcedure();
 //			tableClearProcedure.run(session, map);
 //			NewAccountProcedure newAccountProcedure = new NewAccountProcedure();

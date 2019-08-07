@@ -24,14 +24,22 @@ public class ChangeDateProcedure {
 	
 	public void run(Map<String, Object> map) throws Exception{
 		Session session = DB.getSession();
-		session.beginTransaction();
-		SystemConfig config = session.get(SystemConfig.class, 1, LockMode.PESSIMISTIC_WRITE);
-		config.setBusinessDate(TM.addDay(config.getBusinessDate(), 1));
-		config.setBatchFlag(Constant.batchflag_eod);
-		session.persist(config);
-		session.getTransaction().commit();
-		log.info("日切成功,当前业务日期:[{}],批量日期:[{}],状态:[{}]", config.getBusinessDate(), config.getBatchDate(), config.getBatchFlag());
-		map.put("businessDate", config.getBusinessDate());
-		map.put("batchDate", config.getBatchDate());
+		try {
+			session.beginTransaction();
+			SystemConfig config = session.get(SystemConfig.class, 1, LockMode.PESSIMISTIC_WRITE);
+			config.setBusinessDate(TM.addDay(config.getBusinessDate(), 1));
+			config.setBatchFlag(Constant.batchflag_eod);
+			session.persist(config);
+			session.getTransaction().commit();
+			log.info("日切成功,当前业务日期:[{}],批量日期:[{}],状态:[{}]", config.getBusinessDate(), config.getBatchDate(), config.getBatchFlag());
+			map.put("businessDate", config.getBusinessDate());
+			map.put("batchDate", config.getBatchDate());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(session != null){
+				session.close();
+			}
+		}
 	}
 }
