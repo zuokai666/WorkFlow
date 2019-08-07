@@ -19,6 +19,7 @@ public class Constant {
 	public static final String repaymethod_one = "one";//一次性还本付息
 	
 	public static final String repaymode_dqhk = "dqhk";//到期还款
+	public static final String repaymode_yqhk = "yqhk";//到期还款
 	public static final String repaymode_tqjqCur = "tqjqCur";//提前结清当期
 	public static final String repaymode_tqjqAll = "tqjqAll";//提前结清全部
 	

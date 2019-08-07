@@ -17,11 +17,11 @@ import com.accounting.model.RepayPlan;
 import com.accounting.util.Constant;
 
 /**
- * 到期还款
+ * 逾期还款
  */
-public class DueRepayProcedure {
+public class OverdueRepayProcedure {
 	
-	private static final Logger log = LoggerFactory.getLogger(DueRepayProcedure.class);
+	private static final Logger log = LoggerFactory.getLogger(OverdueRepayProcedure.class);
 	
 	/**
 	 * 
@@ -43,7 +43,7 @@ public class DueRepayProcedure {
 		Integer couponAccountId = (Integer) map.get("couponAccountId");
 		@SuppressWarnings("unchecked")
 		List<RepayPlan> repayPlans = session
-		.createQuery("from RepayPlan where loanId = :loanId and endDate = :ddate and finishDate is null")
+		.createQuery("from RepayPlan where loanId = :loanId and endDate < :ddate and finishDate is null")
 		.setParameter("loanId", loan.getId())
 		.setParameter("ddate", bizDate)
 		.list();
@@ -52,34 +52,34 @@ public class DueRepayProcedure {
 			RepayPlan repayPlan = repayPlans.get(i);
 			BigDecimal payPrincipal = repayPlan.getRepayPrincipal().subtract(repayPlan.getWaivePrincipal());
 			BigDecimal payInterest = repayPlan.getRepayInterest().subtract(repayPlan.getWaiveInterest());
-//			BigDecimal payPrincipalPenalty = repayPlan.getRepayPrincipalPenalty().subtract(repayPlan.getWaivePrincipalPenalty());
-//			BigDecimal payInterestPenalty = repayPlan.getRepayInterestPenalty().subtract(repayPlan.getWaiveInterestPenalty());
-			BigDecimal repayAmount = payPrincipal.add(payInterest);
+			BigDecimal payPrincipalPenalty = repayPlan.getRepayPrincipalPenalty().subtract(repayPlan.getWaivePrincipalPenalty());
+			BigDecimal payInterestPenalty = repayPlan.getRepayInterestPenalty().subtract(repayPlan.getWaiveInterestPenalty());
+			BigDecimal repayAmount = payPrincipal.add(payInterest).add(payPrincipalPenalty).add(payInterestPenalty);
 			//个人账户扣款
 			if(account.getAmount().compareTo(repayAmount) >= 0){
-				log.info("客户银行卡余额[{}]充足，正常批扣[{}]成功", account.getAmount(), repayAmount);
+				log.info("客户银行卡余额[{}]充足，逾期批扣[{}]成功", account.getAmount(), repayAmount);
 				account.setAmount(account.getAmount().subtract(repayAmount));
 				session.persist(account);
 				repayPlan.setFinishDate(bizDate);
-				repayPlan.setRemark("到期还款成功");
+				repayPlan.setRemark("逾期还款成功");
 				session.persist(repayPlan);
 				//增加还款流水
 				RepayFlow repayFlow = new RepayFlow();
 				repayFlow.setLoanId(loan.getId());
 				repayFlow.setRepayDate(bizDate);
-				repayFlow.setRepayMode(Constant.repaymode_dqhk);
+				repayFlow.setRepayMode(Constant.repaymode_yqhk);
 				repayFlow.setPaidPrincipal(payPrincipal);
 				repayFlow.setPaidInterest(payInterest);
-//				repayFlow.setPaidPrincipalPenalty(payPrincipalPenalty);
-//				repayFlow.setPaidInterestPenalty(payInterestPenalty);
+				repayFlow.setPaidPrincipalPenalty(payPrincipalPenalty);
+				repayFlow.setPaidInterestPenalty(payInterestPenalty);
 				repayFlow.setPaidAmount(repayAmount);
 				session.persist(repayFlow);
 				//增加借据实还金额等
 				loan.setPaidAmount(loan.getPaidAmount().add(repayAmount));
 				loan.setPaidInterest(loan.getPaidInterest().add(payInterest));
 				loan.setPaidPrincipal(loan.getPaidPrincipal().add(payPrincipal));
-//				loan.setPaidInterestPenalty(loan.getPaidInterestPenalty().add(payInterestPenalty));
-//				loan.setPaidPrincipalPenalty(loan.getPaidPrincipalPenalty().add(payPrincipalPenalty));
+				loan.setPaidInterestPenalty(loan.getPaidInterestPenalty().add(payInterestPenalty));
+				loan.setPaidPrincipalPenalty(loan.getPaidPrincipalPenalty().add(payPrincipalPenalty));
 				if(repayPlan.getCurrentTerm() == loan.getTerm()){//结清借据
 					log.info("客户最后一期还款成功，借据结清");
 					loan.setFinishDate(bizDate);
@@ -89,7 +89,7 @@ public class DueRepayProcedure {
 				//只有在个人账户扣款成功，才能对公账户优惠券账户扣款
 				dedutionCouponAccount(session, couponAccountId, repayPlan);
 			}else {
-				log.info("客户[{}]银行卡余额[{}]不足，正常批扣[{}]失败", account.getId(), account.getAmount(), repayAmount);
+				log.info("客户[{}]银行卡余额[{}]不足，逾期批扣[{}]失败", account.getId(), account.getAmount(), repayAmount);
 			}
 		}
 	}

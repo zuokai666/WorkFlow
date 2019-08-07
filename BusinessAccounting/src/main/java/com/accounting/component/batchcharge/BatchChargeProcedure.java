@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.accounting.util.DB;
 
 /**
- * 批量扣款
+ * 批量扣款(到期还款/逾期还款)
  */
 public class BatchChargeProcedure {
 	
@@ -26,16 +26,18 @@ public class BatchChargeProcedure {
 			session = DB.getSession();
 			@SuppressWarnings("unchecked")
 			List<Integer> loanIds = session
-					.createQuery("select l.id from Loan l,RepayPlan r where l.id = r.loanId and r.endDate = :ddate and r.finishDate is null")//查询符合批扣条件的借据
+					.createQuery("select l.id from Loan l,RepayPlan r where l.id = r.loanId and r.endDate <= :ddate and r.finishDate is null")//查询符合批扣条件的借据
 					.setParameter("ddate", businessDate)
 					.list();//只查询主键，减小对内存的压力
 			log.info("批量扣款,符合条件借据[{}]条", loanIds.size());
 			DueRepayProcedure dueRepayProcedure = new DueRepayProcedure();
+			OverdueRepayProcedure overdueRepayProcedure = new OverdueRepayProcedure();
 			for(int i=0;i<loanIds.size();i++){
 				int loanId = loanIds.get(i);
 				try {
 					session.getTransaction().begin();
-					dueRepayProcedure.run(map, session, loanId);
+					overdueRepayProcedure.run(map, session, loanId);//先扣逾期还款
+					dueRepayProcedure.run(map, session, loanId);//再扣正常还款
 					session.getTransaction().commit();//释放借据
 				} catch (Exception e) {
 					log.error("", e);
