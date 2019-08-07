@@ -32,8 +32,6 @@ public class EodCompleteProcedure {
 			session.getTransaction().commit();
 			session.close();
 			log.info("日终批完成,当前业务日期:[{}],批量日期:[{}],状态:[{}]", config.getBusinessDate(), config.getBatchDate(), config.getBatchFlag());
-		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
 			if(session != null){
 				session.close();
