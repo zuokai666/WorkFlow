@@ -1,4 +1,4 @@
-package com.accounting.component.normalrepay;
+package com.accounting.component.batchcharge;
 
 import java.util.List;
 import java.util.Map;

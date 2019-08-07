@@ -21,21 +21,22 @@ public class BaApp {
 		DB.printDate();
 //		loan();
 		
-		while(true){
-			ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
-			scheduleService.dayCut();
-			scheduleService.batchCharge();
-			try {
-				Thread.sleep(1 * 1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+//		while(true){
+//			ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
+//			scheduleService.dayCut();
+//			scheduleService.batchCharge();
+//			try {
+//				Thread.sleep(1 * 1000);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
 		
 		
 		
-//		ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
-//		scheduleService.dayCut();
+		ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
+		scheduleService.dayCut();
+		scheduleService.batchCharge();
 		
 //		repay();
 		

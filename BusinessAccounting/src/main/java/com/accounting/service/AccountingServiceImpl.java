@@ -7,13 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.accounting.bean.BizResponse;
+import com.accounting.component.batchcharge.DayEndWaitProcedure;
 import com.accounting.component.loan.CouponCheckProcedure;
 import com.accounting.component.loan.LoanCheckUnClearProcedure;
 import com.accounting.component.loan.LoanInitProcedure;
 import com.accounting.component.loan.LoanInterceptProcedure;
 import com.accounting.component.loan.OriginalRepayPlanInitProcedure;
 import com.accounting.component.loan.RepayPlanInitProcedure;
-import com.accounting.component.normalrepay.DayEndWaitProcedure;
 import com.accounting.component.repay.AdaptiveRepayProcedure;
 import com.accounting.component.repay.LoanCheckClearProcedure;
 import com.accounting.util.DB;

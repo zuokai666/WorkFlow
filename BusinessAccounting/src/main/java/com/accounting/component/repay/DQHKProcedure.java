@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.accounting.component.normalrepay.DueRepayProcedure;
+import com.accounting.component.batchcharge.DueRepayProcedure;
 import com.accounting.exception.MistakeReapyModeException;
 import com.accounting.model.RepayPlan;
 

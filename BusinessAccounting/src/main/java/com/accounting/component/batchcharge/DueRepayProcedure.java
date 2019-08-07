@@ -1,4 +1,4 @@
-package com.accounting.component.normalrepay;
+package com.accounting.component.batchcharge;
 
 import java.math.BigDecimal;
 import java.util.List;

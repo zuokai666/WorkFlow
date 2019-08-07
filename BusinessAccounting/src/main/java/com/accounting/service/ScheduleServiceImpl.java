@@ -6,11 +6,11 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.accounting.component.batchcharge.BatchChargeProcedure;
+import com.accounting.component.batchcharge.CouponAccountSetProcedure;
+import com.accounting.component.batchcharge.DayEndWaitProcedure;
 import com.accounting.component.daycut.ChangeDateProcedure;
 import com.accounting.component.daycut.EodProcedure;
-import com.accounting.component.normalrepay.BatchChargeProcedure;
-import com.accounting.component.normalrepay.CouponAccountSetProcedure;
-import com.accounting.component.normalrepay.DayEndWaitProcedure;
 import com.accounting.component.daycut.EodCompleteProcedure;
 
 /**
