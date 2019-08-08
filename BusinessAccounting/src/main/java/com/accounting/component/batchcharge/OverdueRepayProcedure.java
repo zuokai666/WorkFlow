@@ -48,6 +48,7 @@ public class OverdueRepayProcedure {
 		.setParameter("ddate", bizDate)
 		.list();
 		Account account = (Account) session.get(Account.class, loan.getAccountId(), LockMode.PESSIMISTIC_WRITE);
+		int overdueTerms = repayPlans.size();//记录逾期期数
 		for(int i=0;i<repayPlans.size();i++){
 			RepayPlan repayPlan = repayPlans.get(i);
 			BigDecimal payPrincipal = repayPlan.getRepayPrincipal().subtract(repayPlan.getWaivePrincipal());
@@ -82,16 +83,22 @@ public class OverdueRepayProcedure {
 				loan.setPaidPrincipalPenalty(loan.getPaidPrincipalPenalty().add(payPrincipalPenalty));
 				if(repayPlan.getCurrentTerm() == loan.getTerm()){//结清借据
 					log.info("客户最后一期还款成功，借据结清");
+					loan.setOverdueDays(0);
 					loan.setFinishDate(bizDate);
-					loan.setLoanStatus(Constant.loanstatus_zcjq);
+					loan.setLoanStatus(Constant.loanstatus_yqjq);
 				}
-				session.persist(loan);
 				//只有在个人账户扣款成功，才能对公账户优惠券账户扣款
 				dedutionCouponAccount(session, couponAccountId, repayPlan);
+				overdueTerms--;//逾期的其中一期结清
 			}else {
 				log.info("客户[{}]银行卡余额[{}]不足，逾期批扣[{}]失败", account.getId(), account.getAmount(), repayAmount);
 			}
 		}
+		if(overdueTerms == 0 && loan.getFinishDate() == null){//还未结清的
+			loan.setOverdueDays(0);//逾期批扣全部完成，逾期天数为0，状态为正常
+			loan.setLoanStatus(Constant.loanstatus_zc);
+		}
+		session.persist(loan);
 	}
 	
 	//对公账户优惠券账户扣款，余额不足时抛出异常

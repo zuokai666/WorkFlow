@@ -24,6 +24,9 @@ public class AdaptiveRepayProcedure {
 		}else if(repaymode.equals(Constant.repaymode_tqjqAll)){
 			TQJQAllProcedure tqjqAllProcedure = new TQJQAllProcedure();
 			tqjqAllProcedure.run(session, map);
+		}else if(repaymode.equals(Constant.repaymode_yqhk)){
+			YQHKProcedure yqhkProcedure = new YQHKProcedure();
+			yqhkProcedure.run(session, map);
 		}else {
 			throw new UnsupportedOperationException("不支持其它还款方式");
 		}

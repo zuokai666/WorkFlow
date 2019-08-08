@@ -19,7 +19,7 @@ public class BaApp {
 	
 	public static void main(String[] args) {
 		DB.printDate();
-//		loan();
+		loan();
 		
 //		while(true){
 //			ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
@@ -38,7 +38,7 @@ public class BaApp {
 		scheduleService.dayCut();
 		scheduleService.batchCharge();
 		
-//		repay();
+		repay();
 		
 //		AccountingServiceImpl accountingService = new AccountingServiceImpl();
 //		accountingService.batchCharge();
@@ -63,10 +63,10 @@ public class BaApp {
 	public static void repay() {
 		AccountingServiceImpl accountingService = new AccountingServiceImpl();
 		Map<String, Object> map = new HashMap<>();
-		map.put("loanId", 5);
+		map.put("loanId", 1);
 		map.put("repaymode", Constant.repaymode_dqhk);
 		map.put("repaymode", Constant.repaymode_tqjqCur);
-		map.put("repaymode", Constant.repaymode_tqjqAll);
+//		map.put("repaymode", Constant.repaymode_tqjqAll);
 		BizResponse result = accountingService.repay(map);
 		log.info(result.toString());
 	}

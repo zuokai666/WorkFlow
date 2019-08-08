@@ -72,6 +72,8 @@ public class DueRepayProcedure {
 				repayFlow.setPaidInterest(payInterest);
 //				repayFlow.setPaidPrincipalPenalty(payPrincipalPenalty);
 //				repayFlow.setPaidInterestPenalty(payInterestPenalty);
+				repayFlow.setPaidPrincipalPenalty(new BigDecimal(0));
+				repayFlow.setPaidInterestPenalty(new BigDecimal(0));
 				repayFlow.setPaidAmount(repayAmount);
 				session.persist(repayFlow);
 				//增加借据实还金额等

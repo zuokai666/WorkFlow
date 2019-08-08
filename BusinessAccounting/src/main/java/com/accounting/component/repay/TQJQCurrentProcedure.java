@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.accounting.exception.AccountBalanceLackException;
 import com.accounting.exception.MistakeReapyModeException;
 import com.accounting.model.Account;
 import com.accounting.model.Loan;
@@ -84,8 +85,10 @@ public class TQJQCurrentProcedure {
 				repayFlow.setRepayDate(bizDate);
 				repayFlow.setRepayMode(Constant.repaymode_tqjqCur);
 				repayFlow.setPaidPrincipal(repayPlan.getRepayPrincipal());
-				repayFlow.setPaidInterest(repayPlan.getRepayInterest());
-				repayFlow.setPaidAmount(repayPlan.getRepayAmount());
+				repayFlow.setPaidInterest(repayInterest);
+				repayFlow.setPaidPrincipalPenalty(new BigDecimal(0));
+				repayFlow.setPaidInterestPenalty(new BigDecimal(0));
+				repayFlow.setPaidAmount(repayAmount);
 				session.persist(repayFlow);
 				//增加借据实还金额等
 				loan.setPaidAmount(loan.getPaidAmount().add(repayFlow.getPaidAmount()));
@@ -99,8 +102,8 @@ public class TQJQCurrentProcedure {
 				}
 				session.persist(loan);
 			}else {
-				log.info("客户银行卡余额[{}]不足，批扣[{}]失败", account.getAmount(), repayAmount);
-				throw new UnsupportedOperationException("暂不支持余额不足问题");
+				log.info("客户银行卡余额[{}]不足，提前还当期[{}]失败", account.getAmount(), repayAmount);
+				throw new AccountBalanceLackException("银行卡余额不足，提前还当期["+repayAmount+"]失败");
 			}
 		}
 	}
