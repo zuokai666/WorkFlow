@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.accounting.bean.BizResponse;
+import com.accounting.component.batchcharge.CouponAccountSetProcedure;
 import com.accounting.component.batchcharge.DayEndWaitProcedure;
 import com.accounting.component.loan.CouponCheckProcedure;
 import com.accounting.component.loan.LoanCheckUnClearProcedure;
@@ -69,6 +70,8 @@ public class AccountingServiceImpl {
 			dayEndWaitProcedure.run(map);
 			LoanCheckClearProcedure loanCheckClearProcedure = new LoanCheckClearProcedure();
 			loanCheckClearProcedure.run(session, map);
+			CouponAccountSetProcedure couponAccountSetProcedure = new CouponAccountSetProcedure();
+			couponAccountSetProcedure.run(map);
 			AdaptiveRepayProcedure adaptiveRepayProcedure = new AdaptiveRepayProcedure();
 			adaptiveRepayProcedure.run(session, map);
 			session.getTransaction().commit();
