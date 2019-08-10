@@ -13,3 +13,22 @@ spring:
       suffix: .html
   resources:
     static-locations: classpath:/META-INF/resources/
+  rabbitmq:
+    virtual-host: workflow
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        concurrency: 10
+        max-concurrency: 30
+        prefetch: 3
+rabbit:
+  queue:
+    eod: bizacct_eod
+    
+    
+    
+
+

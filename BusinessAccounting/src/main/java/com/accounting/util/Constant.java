@@ -28,4 +28,9 @@ public class Constant {
 	
 	public static final String accounttype_person = "person";//个人账户
 	public static final String accounttype_company = "company";//公司账户
+	
+	public static final String batchtasklogstatus_send = "send";//发送中
+	public static final String batchtasklogstatus_process = "process";//处理中
+	public static final String batchtasklogstatus_success = "success";//成功
+	public static final String batchtasklogstatus_fail = "fail";//失败
 }

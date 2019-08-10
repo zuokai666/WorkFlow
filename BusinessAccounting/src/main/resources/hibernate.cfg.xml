@@ -31,5 +31,6 @@
 		<mapping class="com.accounting.model.Account"/>
 		<mapping class="com.accounting.model.AccountDealFlow"/>
 		<mapping class="com.accounting.model.Coupon"/>
+		<mapping class="com.accounting.model.BatchTaskLog"/>
 	</session-factory>
 </hibernate-configuration>
